@@ -6,14 +6,13 @@
 
 
 ## Overview
-
+![flowchart](./flowchart.JPG)
 
 ## User Interface
 
 ![GUI](./gui.jpg)
 
 ## Design Details
-![flowchart](./flowchart.JPG)
 
 
 ## Design Considerations
