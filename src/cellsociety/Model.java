@@ -2,10 +2,10 @@ package cellsociety;
 
 import java.util.ArrayList;
 
-public class Grid {
+public class Model {
   private ArrayList<ArrayList<Cell>> myGrid;
 
-  public Grid(ArrayList<ArrayList<Cell>> grid){
+  public Model(ArrayList<ArrayList<Cell>> grid){
     myGrid = grid;
   }
 

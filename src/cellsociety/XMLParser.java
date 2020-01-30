@@ -11,12 +11,12 @@ public class XMLParser {
     this.fname = fname;
   }
 
-  public ArrayList<ArrayList<Cell>> generateGridFromXML(){
-    ArrayList<ArrayList<Cell>> grid;
-    return grid;
-  }
-  public HashMap<String, String> getSimulationParams () {
-    HashMap<String, String> simulationParams;
-    return simulationParams;
-  }
+//  public ArrayList<ArrayList<Cell>> generateGridFromXML(){
+//    ArrayList<ArrayList<Cell>> grid;
+//    return grid;
+//  }
+//  public HashMap<String, String> getSimulationParams () {
+//    HashMap<String, String> simulationParams;
+//    return simulationParams;
+//  }
 }

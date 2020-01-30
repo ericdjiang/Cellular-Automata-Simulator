@@ -1,8 +1,10 @@
-package cellsociety;
+package cellsociety.simulations;
 
+import cellsociety.Cell;
+import cellsociety.Simulation;
 import java.util.List;
 
-public class FireSim extends Simulation{
+public class FireSim extends Simulation {
   public FireSim(){
 
   }
