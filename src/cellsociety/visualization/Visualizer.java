@@ -1,6 +1,7 @@
 package cellsociety.visualization;
 
 import cellsociety.Model;
+import javafx.scene.control.Slider;
 import javafx.scene.shape.Rectangle;
 import java.util.HashMap;
 import javafx.animation.Timeline;
@@ -55,8 +56,9 @@ public class Visualizer {
   private Button stopButton;
   private Button stepButton;
 
-  // GridWrapper
+  // Simulation objects
   private Group gridWrapper = new Group();
+  private Slider slider;
 
   // Simulation states
   private boolean simPaused = true;
@@ -85,6 +87,9 @@ public class Visualizer {
     return scene;
   }
 
+  public double getSimSpeed(){
+    return slider.getValue();
+  }
 
   // Making input panel to hold buttons and sliders
   private Node makeInputPanel () {
@@ -92,7 +97,12 @@ public class Visualizer {
     stopButton = makeButton("Stop", event -> stopSimulation());
     stepButton = makeButton("Step", event -> stepSimulation());
 
-    HBox hbox = new HBox(playButton, stopButton, stepButton);
+    slider = new Slider();
+    slider.setMin(100);
+    slider.setMax(2000);
+    slider.setShowTickLabels(true);
+
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider);
     return hbox;
   }
 

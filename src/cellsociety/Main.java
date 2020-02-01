@@ -12,7 +12,7 @@ import javafx.util.Duration;
 public class Main extends Application {
   // Default simulation speed
 //  private final int FRAMES_PER_SECOND = 60;
-  private int MILLISECOND_DELAY = 1000;
+  private int millisecondDelay = 1000;
 
   // Simulation specific params
   private Timeline animation;
@@ -23,7 +23,7 @@ public class Main extends Application {
   private XMLParser myXMLParser;
   private Model myModel;
   private HashMap<String, String> simulationParams;
-  private Visualizer display;
+  private Visualizer myVisualizer;
 
   /**
    * Begins the simulation loop via timeline
@@ -42,13 +42,13 @@ public class Main extends Application {
     myModel = new Model(grid);
 
     // Generate View, passing Model and Simulation parameters to the View
-    display = new Visualizer(myModel, simulationParams);
-    stage.setScene(display.makeScene());
+    myVisualizer = new Visualizer(myModel, simulationParams);
+    stage.setScene(myVisualizer.makeScene());
     stage.setTitle(TITLE);
     stage.show();
 
     // Setup timeline which will call step to advance the simulation by one
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
+    KeyFrame frame = new KeyFrame(Duration.millis(millisecondDelay), e -> step());
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
@@ -59,16 +59,17 @@ public class Main extends Application {
    * Advances the simulation by one step
    */
   private void step() {
-    if(!display.isSimPaused()) { // if the simulation is not stopped
+    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
       // call find new state and setnewstate on Simulation object
 
       // get simulation speed from visualizer
-
+      setSimulationSpeed(myVisualizer.getSimSpeed());
     }
   }
 
-  private void setSimulationSpeed(int simulationSpeed){ //take in simulationspeed as seconds in between each step
-    MILLISECOND_DELAY = simulationSpeed / 1000;
+  private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step
+    millisecondDelay = (int) simulationSpeed;
+    System.out.println(millisecondDelay);
   }
 
 
