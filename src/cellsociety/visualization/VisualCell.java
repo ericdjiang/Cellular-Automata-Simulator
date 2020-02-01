@@ -14,10 +14,13 @@ public class VisualCell extends Rectangle {
     switch(state){
       case 2:
         setFill(Color.RED);
+        break;
       case 1:
         setFill(Color.GREEN);
+        break;
       default:
         setFill(Color.BLACK);
+        break;
     }
   }
 

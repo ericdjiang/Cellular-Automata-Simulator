@@ -14,6 +14,7 @@ public class Model {
   }
 
   public Cell getCell(int x, int y){
+    System.out.println(myGrid.get(x).get(y).getState());
     return myGrid.get(x).get(y);
   }
 }
