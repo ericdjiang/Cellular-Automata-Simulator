@@ -48,6 +48,8 @@ public class Visualizer {
   private int GRID_WIDTH = 400;
   private int GRID_HEIGHT = 400;
 
+  private int STAGE_HEIGHT = GRID_HEIGHT + 200;
+  private int STAGE_WIDTH = GRID_WIDTH;
   // Buttons
   private Button playButton;
   private Button stopButton;
@@ -72,14 +74,14 @@ public class Visualizer {
     BorderPane root = new BorderPane();
 
     root.setCenter(gridWrapper);
-    updateGrid();
+    displayNewGrid();
 
 //    root.setTop(makeTopPanel());
 
     root.setBottom(makeInputPanel());
 
     // create scene to hold UI
-    Scene scene = new Scene(root, 400, 600);
+    Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
     return scene;
   }
 
@@ -115,10 +117,15 @@ public class Visualizer {
 
   private void stepSimulation(){
      stopSimulation();
-     // code to advance Simulation class by one step
+     clearOldGrid();
+     displayNewGrid();
   }
 
-  public void updateGrid() {
+  private void clearOldGrid() {
+    gridWrapper.getChildren().clear();
+  }
+
+  private void displayNewGrid() {
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
 

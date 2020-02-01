@@ -11,8 +11,8 @@ import javafx.util.Duration;
 
 public class Main extends Application {
   // Default simulation speed
-  private final int FRAMES_PER_SECOND = 60;
-  private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+//  private final int FRAMES_PER_SECOND = 60;
+  private int MILLISECOND_DELAY = 1000;
 
   // Simulation specific params
   private Timeline animation;
@@ -59,13 +59,18 @@ public class Main extends Application {
    * Advances the simulation by one step
    */
   private void step() {
-    if(!display.isSimPaused()) {
+    if(!display.isSimPaused()) { // if the simulation is not stopped
       // call find new state and setnewstate on Simulation object
 
       // get simulation speed from visualizer
 
     }
   }
+
+  private void setSimulationSpeed(int simulationSpeed){ //take in simulationspeed as seconds in between each step
+    MILLISECOND_DELAY = simulationSpeed / 1000;
+  }
+
 
   public static void main(String[] args) {
     launch(args);
