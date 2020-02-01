@@ -70,6 +70,13 @@ public class Main extends Application {
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step
     millisecondDelay = (int) simulationSpeed;
     System.out.println(millisecondDelay);
+    animation.stop();
+    animation.getKeyFrames().clear();
+
+    KeyFrame frame = new KeyFrame(Duration.millis(millisecondDelay), e -> step());
+    animation.setCycleCount(Timeline.INDEFINITE);
+    animation.getKeyFrames().add(frame);
+    animation.play();
   }
 
 
