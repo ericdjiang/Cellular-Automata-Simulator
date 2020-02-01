@@ -126,6 +126,7 @@ public class Visualizer {
   }
 
   private void stepSimulation(){
+    System.out.println("stepping");
      stopSimulation();
      clearOldGrid();
      displayNewGrid();
@@ -140,11 +141,11 @@ public class Visualizer {
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
 
     for (int i = 0; i < PARAM_ROWS; i++){
+      int startX = GRID_WIDTH - cellWidth*myModel.getGrid().get(i).size()/2;
       for (int j = 0; j < PARAM_COLS; j++) {
-        VisualCell cell = new VisualCell(cellWidth*i, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState());
+        VisualCell cell = new VisualCell(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState());
         gridWrapper.getChildren().add(cell);
       }
     }
   }
-
 }
