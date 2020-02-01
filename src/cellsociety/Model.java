@@ -12,4 +12,8 @@ public class Model {
   public ArrayList<ArrayList<Cell>> getGrid(){
     return myGrid;
   }
+
+  public Cell getCell(int x, int y){
+    return myGrid.get(x).get(y);
+  }
 }
