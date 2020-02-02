@@ -1,6 +1,7 @@
 package cellsociety.visualization;
 
 import cellsociety.Model;
+import cellsociety.Simulation;
 import javafx.scene.control.Slider;
 import javafx.scene.shape.Rectangle;
 import java.util.HashMap;
@@ -46,6 +47,8 @@ public class Visualizer {
   private int PARAM_ROWS = 20;
   private int PARAM_COLS = 20;
 
+  private Simulation mySimulation;
+
   private int GRID_WIDTH = 400;
   private int GRID_HEIGHT = 400;
 
@@ -62,14 +65,13 @@ public class Visualizer {
 
   // Simulation states
   private boolean simPaused = true;
-  private int simSpeed;
 
 
-  public Visualizer(Model model, HashMap<String, String> simulationParams){
+  public Visualizer(Model model, HashMap<String, String> simulationParams, Simulation simulation){
     this.myModel = model;
     this.mySimulationParams = simulationParams;
 
-    this.simSpeed = 1;
+    this.mySimulation = simulation;
   }
 
   public Scene makeScene(){
@@ -127,10 +129,9 @@ public class Visualizer {
   }
 
   private void stepSimulation(){
-    startSimulation();
-
-    runSimulation();
-    stopSimulation();
+     stopSimulation();
+     mySimulation.run();
+     runSimulation();
   }
   public void runSimulation(){
     clearOldGrid();

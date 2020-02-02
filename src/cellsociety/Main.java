@@ -43,8 +43,9 @@ public class Main extends Application {
     // Generate Model
     myModel = new Model(grid);
     mySimulation = new GameOfLifeSim(myModel);
+
     // Generate View, passing Model and Simulation parameters to the View
-    myVisualizer = new Visualizer(myModel, simulationParams);
+    myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
     stage.setScene(myVisualizer.makeScene());
     stage.setTitle(TITLE);
     stage.show();
