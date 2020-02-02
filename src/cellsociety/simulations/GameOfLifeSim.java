@@ -16,7 +16,7 @@ public class GameOfLifeSim extends Simulation {
     }
 
     @Override
-    public void findNewStates() {
+    protected void findNewStates() {
         for(int i = 0; i < myGrid.size(); i++){
             for(int j = 0; j < myGrid.get(i).size(); j++){
                 Cell cell = myGrid.get(i).get(j);
@@ -39,11 +39,12 @@ public class GameOfLifeSim extends Simulation {
     }
 
     @Override
-    public void setNewStates() {
+    protected void setNewStates() {
         for(int i = 0; i < myGrid.size(); i++) {
             for (int j = 0; j < myGrid.get(i).size(); j++) {
                 myGrid.get(i).get(j).updateState();
             }
         }
     }
+
 }

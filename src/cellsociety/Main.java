@@ -1,5 +1,6 @@
 package cellsociety;
 
+import cellsociety.simulations.GameOfLifeSim;
 import cellsociety.visualization.Visualizer;
 import javafx.application.Application;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Main extends Application {
   private Model myModel;
   private HashMap<String, String> simulationParams;
   private Visualizer myVisualizer;
+  private Simulation mySimulation;
 
   /**
    * Begins the simulation loop via timeline
@@ -40,7 +42,7 @@ public class Main extends Application {
 
     // Generate Model
     myModel = new Model(grid);
-
+    mySimulation = new GameOfLifeSim(myModel);
     // Generate View, passing Model and Simulation parameters to the View
     myVisualizer = new Visualizer(myModel, simulationParams);
     stage.setScene(myVisualizer.makeScene());
@@ -61,7 +63,9 @@ public class Main extends Application {
   private void step() {
     if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
       // call find new state and setnewstate on Simulation object
-
+      mySimulation.run();
+      //myModel = mySimulation.getModel();
+      myVisualizer.stepSimulation();
       // get simulation speed from visualizer
       setSimulationSpeed(myVisualizer.getSimSpeed());
     }
@@ -69,7 +73,6 @@ public class Main extends Application {
 
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step
     millisecondDelay = (int) simulationSpeed;
-    System.out.println(millisecondDelay);
     animation.stop();
     animation.getKeyFrames().clear();
 

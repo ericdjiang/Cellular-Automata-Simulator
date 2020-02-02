@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Simulation {
-  private Model myGrid;
+  private Model myModel;
+  public void run(){
+    findNewStates();
+    setNewStates();
+  }
 
-
-  public abstract void findNewStates();
-  public abstract void setNewStates();
+  protected abstract void findNewStates();
+  protected abstract void setNewStates();
 }

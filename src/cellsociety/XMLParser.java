@@ -18,7 +18,7 @@ public class XMLParser {
     for(int i = 0; i < 20; i++){
       grid.add(new ArrayList<Cell>());
       for(int j = 0; j < 20; j++){
-        grid.get(i).add(new Cell(new Random().nextInt(3)));
+        grid.get(i).add(new Cell(new Random().nextInt(2), i, j));
       }
     }
 

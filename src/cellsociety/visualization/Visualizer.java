@@ -125,7 +125,7 @@ public class Visualizer {
     return simPaused;
   }
 
-  private void stepSimulation(){
+  public void stepSimulation(){
     System.out.println("stepping");
      stopSimulation();
      clearOldGrid();
