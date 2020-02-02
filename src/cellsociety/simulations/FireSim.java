@@ -3,25 +3,19 @@ package cellsociety.simulations;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 
-import java.util.List;
-
 public class FireSim extends Simulation {
     public FireSim() {
 
     }
 
-    @Override
-    public List<Cell> getNeighbors() {
-      return null;
-    }
 
     @Override
-    public void findNewStates() {
+    public void findNewStates(Cell cell) {
 
     }
 
     @Override
-    public void setNewStates() {
+    public void setNewStates(Cell cell) {
 
     }
 }

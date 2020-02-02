@@ -1,9 +1,12 @@
 package cellsociety;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Simulation {
-  public abstract List<Cell> getNeighbors();
+  private Model myGrid;
+
+
   public abstract void findNewStates();
   public abstract void setNewStates();
 }
