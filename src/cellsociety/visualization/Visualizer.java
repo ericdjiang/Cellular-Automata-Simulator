@@ -119,19 +119,22 @@ public class Visualizer {
 
   private void stopSimulation(){
     simPaused = true;
+    System.out.println("stopped");
   }
 
   public boolean isSimPaused(){
     return simPaused;
   }
 
-  public void stepSimulation(){
+  private void stepSimulation(){
     System.out.println("stepping");
      stopSimulation();
-     clearOldGrid();
-     displayNewGrid();
+     runSimulation();
   }
-
+  public void runSimulation(){
+    clearOldGrid();
+    displayNewGrid();
+  }
   private void clearOldGrid() {
     gridWrapper.getChildren().clear();
   }

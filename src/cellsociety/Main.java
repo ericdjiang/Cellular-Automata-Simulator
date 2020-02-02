@@ -65,7 +65,7 @@ public class Main extends Application {
       // call find new state and setnewstate on Simulation object
       mySimulation.run();
       //myModel = mySimulation.getModel();
-      myVisualizer.stepSimulation();
+      myVisualizer.runSimulation();
       // get simulation speed from visualizer
       setSimulationSpeed(myVisualizer.getSimSpeed());
     }
