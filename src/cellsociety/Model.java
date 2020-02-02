@@ -21,17 +21,5 @@ public class Model {
     return myGrid.get(x).get(y);
   }
 
-  public  ArrayList<Cell> getNeighbors(Cell cell){
-    ArrayList<Cell> neighbors = new ArrayList<>();
-    int x = cell.getX();
-    int y = cell.getY();
-    int[] xSteps = {0, 0, 1, -1, 1, 1, -1, -1};
-    int[] ySteps = {1, -1, 0, 0, 1, -1, 1, -1};
-    for(int i = 0; i < xSteps.length; i++){
-      Cell neighbor = getCell(x+xSteps[i], y+ySteps[i]);
-      if(neighbor != null)
-        neighbors.add(neighbor);
-    }
-    return neighbors;
-  }
+
 }

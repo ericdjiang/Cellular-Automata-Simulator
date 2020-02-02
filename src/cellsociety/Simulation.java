@@ -9,7 +9,7 @@ public abstract class Simulation {
     findNewStates();
     setNewStates();
   }
-
+  protected abstract ArrayList<Cell> getNeighbors(Cell cell);
   protected abstract void findNewStates();
   protected abstract void setNewStates();
 }
