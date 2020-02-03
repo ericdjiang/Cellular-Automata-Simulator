@@ -7,6 +7,7 @@ public class Cell {
   private int nextState;
   public Cell(int state, int x, int y){
     this.state = state;
+    this.nextState = state;
     this.x = x;
     this.y = y;
   }
@@ -15,8 +16,8 @@ public class Cell {
     return this.state;
   }
 
-  public void setNextState(int state){
-    this.nextState = state;
+  public void setNextState(int nextState){
+    this.nextState = nextState;
   }
 
   public int getX(){

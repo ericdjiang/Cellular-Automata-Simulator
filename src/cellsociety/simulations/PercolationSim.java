@@ -6,11 +6,11 @@ import cellsociety.Simulation;
 
 import java.util.ArrayList;
 
-public class GameOfLifeSim extends Simulation {
+public class PercolationSim extends Simulation {
     private Model myModel;
     ArrayList<ArrayList<Cell>> myGrid;
 
-    public GameOfLifeSim(Model model) {
+    public PercolationSim(Model model) {
         super(model);
         myModel = model;
         myGrid = myModel.getGrid();
@@ -29,27 +29,25 @@ public class GameOfLifeSim extends Simulation {
         }
         return neighbors;
     }
+
     @Override
     protected void findNewStates() {
         for(int i = 0; i < myGrid.size(); i++){
             for(int j = 0; j < myGrid.get(i).size(); j++){
                 Cell cell = myGrid.get(i).get(j);
+                if(cell.getState() == 0 || cell.getState() == 2){
+                    continue;
+                }
                 ArrayList<Cell> neighbors = getNeighbors(cell);
-                int count = 0;
-                for(Cell c: neighbors){
-                    count += c.getState();
-                }
 
-                if(count == 3){
-                    cell.setNextState(1);
+
+                for(Cell c: neighbors){
+                    if(c.getState() == 2){
+                        cell.setNextState(2);
+                        break;
+                    }
                 }
-                else if(count == 2){
-                    cell.setNextState(cell.getState());
-                }
-                else
-                    cell.setNextState(0);
             }
         }
     }
-
 }
