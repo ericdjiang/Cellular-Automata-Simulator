@@ -53,8 +53,10 @@ public class Main extends Application {
   public void start(Stage stage) throws Exception {
     // Read in parameters and layout from XML
     myXMLParser = new XMLParser();
+    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
     ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
     simulationParams = myXMLParser.getSimulationParams();
+    System.out.println(simulationParams);
 
     // Generate Model
     myModel = new Model(grid);

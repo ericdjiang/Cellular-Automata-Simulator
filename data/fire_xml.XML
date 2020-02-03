@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<data media="Music">
-  <artist>Adele</artist>
-  <title>25</title>
-  <year>2015</year>
-  <publisher>Columbia</publisher>
+<data>
+  <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
+  <simName>Fire</simName>
+  <color0>Black</color0>
+  <color1>Green</color1>
+  <color2>Red</color2>
+
+  <gridHeight>20</gridHeight>
+  <gridWidth>20</gridWidth>
+  <gridValues></gridValues>
+
 </data>
