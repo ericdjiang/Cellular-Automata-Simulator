@@ -2,6 +2,7 @@ package cellsociety;
 
 import cellsociety.simulations.GameOfLifeSim;
 import cellsociety.simulations.PercolationSim;
+import cellsociety.simulations.SegregationSim;
 import cellsociety.visualization.Visualizer;
 import javafx.application.Application;
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class Main extends Application {
     // Generate Model
     myModel = new Model(grid);
     //mySimulation = new GameOfLifeSim(myModel);
-    mySimulation = new PercolationSim(myModel);
+    //mySimulation = new PercolationSim(myModel);
+    mySimulation = new SegregationSim(myModel, 0.3);
     // Generate View, passing Model and Simulation parameters to the View
     myVisualizer = new Visualizer(myModel, simulationParams);
     stage.setScene(myVisualizer.makeScene());
