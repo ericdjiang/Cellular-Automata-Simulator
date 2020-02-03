@@ -67,7 +67,7 @@ public class Visualizer {
 
   // Simulation states
   private boolean simPaused = true;
-  private boolean xmlLoaded = false;
+  private boolean xmlLoaded = true;
 
 
   public Visualizer(Model model, HashMap<String, String> simulationParams, Simulation simulation){

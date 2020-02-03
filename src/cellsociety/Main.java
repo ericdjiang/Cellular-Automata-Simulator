@@ -51,24 +51,9 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage stage) throws Exception {
-    // Read in parameters and layout from XML
-    myXMLParser = new XMLParser();
-    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
-    ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
-    simulationParams = myXMLParser.getSimulationParams();
-    System.out.println(simulationParams);
-
-    // Generate Model
-    myModel = new Model(grid);
-    mySimulation = new GameOfLifeSim(myModel);
-
-    // Generate View, passing Model and Simulation parameters to the View
-    myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
-
     myStage = stage;
-    stage.setScene(myVisualizer.makeScene());
-    stage.setTitle(TITLE);
-    stage.show();
+
+    loadConfiguration();
 
     // Setup timeline which will call step to advance the simulation by one
     KeyFrame frame = new KeyFrame(Duration.millis(millisecondDelay), e -> step());
@@ -78,37 +63,46 @@ public class Main extends Application {
     animation.play();
  }
 
+ private void loadConfiguration() throws Exception{
+   // Read in parameters and layout from XML
+   myXMLParser = new XMLParser();
+   myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
+   ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
+   simulationParams = myXMLParser.getSimulationParams();
+   System.out.println(simulationParams);
+
+   // Generate Model
+   myModel = new Model(grid);
+   mySimulation = new GameOfLifeSim(myModel);
+
+   // Generate View, passing Model and Simulation parameters to the View
+   myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
+
+   myStage.setScene(myVisualizer.makeScene());
+   myStage.setTitle(simulationParams.get("simName"));
+   myStage.show();
+ }
   /**
    * Advances the simulation by one step
    */
   private void step() {
-//    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
-//      // call find new state and setnewstate on Simulation object
-//      mySimulation.run();
-//      //myModel = mySimulation.getModel();
-//      myVisualizer.runSimulation();
-//      // get simulation speed from visualizer
-//      setSimulationSpeed(myVisualizer.getSimSpeed());
-//    } else if (!myVisualizer.getXMLLoaded()){
-//      File dataFile = FILE_CHOOSER.showOpenDialog(myStage);
-//      XMLParser xmlParser = new XMLParser(dataFile);
-//      simulationParams = xmlParser.getSimulationParams();
-//      ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
-//
-////        try {
-////          Pair<String, Game> p = new Pair<>(dataFile.getName(), new XMLParser("media").getGame(dataFile));
-////          // do something "interesting" with the resulting data
-////          showMessage(AlertType.INFORMATION, p.getFirst() + "\n" + p.getSecond().toString());
-////        }
-////        catch (XMLException e) {
-////          // handle error of unexpected file format
-////          showMessage(AlertType.ERROR, e.getMessage());
-////        }
-////        dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
-//
-//      myVisualizer.setXMLLoaded(true);
-//
-//    }
+    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
+      // call find new state and setnewstate on Simulation object
+      mySimulation.run();
+      //myModel = mySimulation.getModel();
+      myVisualizer.runSimulation();
+      // get simulation speed from visualizer
+      setSimulationSpeed(myVisualizer.getSimSpeed());
+    } else if (!myVisualizer.getXMLLoaded()){
+      try {
+        loadConfiguration();
+      } catch(Exception e) {
+        System.out.println("could not load configuration file");
+      }
+
+      myVisualizer.setXMLLoaded(true);
+
+    }
   }
 
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step

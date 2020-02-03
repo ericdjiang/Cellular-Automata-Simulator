@@ -32,7 +32,7 @@ public class XMLParser {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
         .newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    Document document = docBuilder.parse(new File("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\fire_xml.XML"));
+    Document document = docBuilder.parse(fname);
     NodeList nodeList = document.getElementsByTagName("*");
 
     for (int i = 0; i < nodeList.getLength(); i++) {
