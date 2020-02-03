@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data>
   <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
-  <simName>Fire</simName>
+  <simName>Game of Life</simName>
   <color0>Black</color0>
   <color1>Green</color1>
   <color2>Red</color2>
