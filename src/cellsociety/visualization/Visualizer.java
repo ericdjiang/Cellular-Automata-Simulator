@@ -40,6 +40,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
+
 public class Visualizer {
   // Simulation model and parameters
   private Model myModel;
@@ -58,6 +59,7 @@ public class Visualizer {
   private Button playButton;
   private Button stopButton;
   private Button stepButton;
+  private Button configButton;
 
   // Simulation objects
   private Group gridWrapper = new Group();
@@ -65,6 +67,7 @@ public class Visualizer {
 
   // Simulation states
   private boolean simPaused = true;
+  private boolean xmlLoaded = false;
 
 
   public Visualizer(Model model, HashMap<String, String> simulationParams, Simulation simulation){
@@ -104,8 +107,18 @@ public class Visualizer {
     slider.setMax(2000);
     slider.setShowTickLabels(true);
 
-    HBox hbox = new HBox(playButton, stopButton, stepButton, slider);
+    configButton = makeButton("Select File", event -> setXMLLoaded(false));
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton);
     return hbox;
+  }
+
+  public void setXMLLoaded(Boolean xmlLoaded){
+    stopSimulation();
+    this.xmlLoaded = xmlLoaded;
+  }
+
+  public boolean getXMLLoaded(){
+    return this.xmlLoaded;
   }
 
   private Button makeButton(String property, EventHandler<ActionEvent> handler){
