@@ -53,15 +53,20 @@ public class XMLParser {
         }
       }
     }
+    System.out.println("gridASCII = " + gridASCII.length());
   }
 
   public ArrayList<ArrayList<Cell>> generateGridFromXML(){
+    int stringIdx = 0;
     ArrayList<ArrayList<Cell>> grid = new ArrayList <> ();
 
     for(int i = 0; i < myHeight; i++){
       grid.add(new ArrayList<Cell>());
       for(int j = 0; j < myWidth; j++){
-        grid.get(i).add(new Cell(new Random().nextInt(3), i, j));
+        int state = Character.getNumericValue(gridASCII.charAt(stringIdx));
+        //grid.get(i).add(new Cell(new Random().nextInt(3), i, j));
+        grid.get(i).add(new Cell(state, i, j));
+        stringIdx++;
       }
     }
 
