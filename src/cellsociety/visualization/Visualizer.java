@@ -73,7 +73,8 @@ public class Visualizer {
   public Visualizer(Model model, HashMap<String, String> simulationParams, Simulation simulation){
     this.myModel = model;
     this.mySimulationParams = simulationParams;
-
+    this.PARAM_COLS = Integer.parseInt(simulationParams.get("gridWidth"));
+    this.PARAM_ROWS = Integer.parseInt(simulationParams.get("gridHeight"));
     this.mySimulation = simulation;
   }
 

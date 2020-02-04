@@ -24,6 +24,8 @@ import org.xml.sax.SAXException;
 public class XMLParser {
   private String gridASCII = "";
   private HashMap<String, String> simulationParams = new HashMap<>();
+  private int myHeight;
+  private int myWidth;
   public XMLParser(){
   }
 
@@ -40,8 +42,14 @@ public class XMLParser {
       if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName()!="data") {
         if(node.getNodeName()=="gridValues"){
            gridASCII = node.getTextContent();
-        } else {
+        }else{
           simulationParams.put(node.getNodeName(), node.getTextContent());
+        }
+        if(node.getNodeName() == "gridHeight") {
+          myHeight = Integer.parseInt(node.getTextContent());
+        }
+        if(node.getNodeName() == "gridWidth") {
+          myWidth = Integer.parseInt(node.getTextContent());
         }
       }
     }
@@ -50,10 +58,10 @@ public class XMLParser {
   public ArrayList<ArrayList<Cell>> generateGridFromXML(){
     ArrayList<ArrayList<Cell>> grid = new ArrayList <> ();
 
-    for(int i = 0; i < 20; i++){
+    for(int i = 0; i < myHeight; i++){
       grid.add(new ArrayList<Cell>());
-      for(int j = 0; j < 20; j++){
-        grid.get(i).add(new Cell(new Random().nextInt(2), i, j));
+      for(int j = 0; j < myWidth; j++){
+        grid.get(i).add(new Cell(new Random().nextInt(3), i, j));
       }
     }
 

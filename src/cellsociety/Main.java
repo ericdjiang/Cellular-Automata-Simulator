@@ -90,11 +90,13 @@ public class Main extends Application {
    myModel = new Model(grid);
 
    switch(simulationParams.get("simName")){
-     case "Fire":
+     case "Game of Life":
        mySimulation = new GameOfLifeSim(myModel);
        break;
-     case "Game of Life":
-       mySimulation = new FireSim(myModel, Double.parseDouble(simulationParams.get("catchProb")));
+     case "Fire":
+       double catchProb = Double.parseDouble(simulationParams.get("catchProb"));
+       System.out.println("catchProb = " + catchProb);
+       mySimulation = new FireSim(myModel, catchProb);
        break;
      case "percolation":
        mySimulation = new PercolationSim(myModel);
@@ -105,7 +107,6 @@ public class Main extends Application {
      default:
        break;
    }
-
 
    // Generate View, passing Model and Simulation parameters to the View
    myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);

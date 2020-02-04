@@ -3,11 +3,11 @@
   <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
   <simName>Fire</simName>
   <color0>Black</color0>
-  <color1>Green</color1>
-  <color2>Red</color2>
-
-  <gridHeight>20</gridHeight>
-  <gridWidth>20</gridWidth>
+  <color1>Red</color1>
+  <color2>Green</color2>
+  <catchProb>0.3</catchProb>
+  <gridHeight>10</gridHeight>
+  <gridWidth>10</gridWidth>
   <gridValues></gridValues>
 
 </data>
