@@ -137,7 +137,6 @@ public class Visualizer {
 
   private void stopSimulation(){
     simPaused = true;
-    System.out.println("stopped");
   }
 
   public boolean isSimPaused(){
