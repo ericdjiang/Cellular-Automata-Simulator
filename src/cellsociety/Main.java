@@ -98,10 +98,10 @@ public class Main extends Application {
        System.out.println("catchProb = " + catchProb);
        mySimulation = new FireSim(myModel, catchProb);
        break;
-     case "percolation":
+     case "Percolation":
        mySimulation = new PercolationSim(myModel);
        break;
-     case "segregation":
+     case "Segregation":
        mySimulation = new SegregationSim(myModel, Double.parseDouble(simulationParams.get("threshold")));
        break;
      default:
