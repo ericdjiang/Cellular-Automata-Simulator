@@ -4,6 +4,8 @@ import cellsociety.Model;
 import cellsociety.Simulation;
 import javafx.scene.control.Slider;
 import javafx.scene.shape.Rectangle;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -155,14 +157,19 @@ public class Visualizer {
     gridWrapper.getChildren().clear();
   }
 
-  private void displayNewGrid() {
+  private void displayNewGrid(){
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
 
     for (int i = 0; i < PARAM_ROWS; i++){
       int startX = GRID_WIDTH - cellWidth*myModel.getGrid().get(i).size()/2;
       for (int j = 0; j < PARAM_COLS; j++) {
-        VisualCell cell = new VisualCell(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState());
+        String color0 = mySimulationParams.get("color0");
+        String color1 = mySimulationParams.get("color1");
+        String color2 = mySimulationParams.get("color2");
+
+        System.out.println("mySimulationParams = " + mySimulationParams.get("color0"));
+        VisualCell cell = new VisualCell(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
         gridWrapper.getChildren().add(cell);
       }
     }
