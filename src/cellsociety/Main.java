@@ -1,9 +1,6 @@
 package cellsociety;
 
-import cellsociety.simulations.FireSim;
-import cellsociety.simulations.GameOfLifeSim;
-import cellsociety.simulations.PercolationSim;
-import cellsociety.simulations.SegregationSim;
+import cellsociety.simulations.*;
 import cellsociety.visualization.Visualizer;
 import cellsociety.xml.XMLParser;
 import java.io.File;
@@ -104,6 +101,8 @@ public class Main extends Application {
      case "Segregation":
        mySimulation = new SegregationSim(myModel, Double.parseDouble(simulationParams.get("threshold")));
        break;
+     case "PredatorPrey":
+       mySimulation = new PredatorPreySim(myModel, Integer.parseInt(simulationParams.get("breedTime")), Integer.parseInt(simulationParams.get("starveTime")));
      default:
        break;
    }
