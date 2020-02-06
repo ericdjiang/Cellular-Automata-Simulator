@@ -8,14 +8,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FireSim extends Simulation {
-    private Model myModel;
     private double myCatchProb;
-    ArrayList<ArrayList<Cell>> myGrid;
 
     public FireSim(Model model, double catchProb) {
         super(model);
         myModel = model;
-        myGrid = myModel.getGrid();
         myCatchProb = catchProb;
     }
 /*
@@ -35,9 +32,9 @@ public class FireSim extends Simulation {
 
     @Override
     protected void findNewStates() {
-        for(int i = 0; i < myGrid.size(); i++){
-            for(int j = 0; j < myGrid.get(i).size(); j++){
-                Cell cell = myGrid.get(i).get(j);
+        for(int i = 0; i < myModel.getHeight(); i++){
+            for(int j = 0; j < myModel.getWidth(); j++){
+                Cell cell = myModel.getCell(i,j);
                 if(cell.getState() == 0){
                     continue;
                 }
