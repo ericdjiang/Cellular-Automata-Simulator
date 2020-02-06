@@ -1,5 +1,7 @@
 package cellsociety;
 
+import cellsociety.cells.Cell;
+
 import java.util.ArrayList;
 
 public class Model {

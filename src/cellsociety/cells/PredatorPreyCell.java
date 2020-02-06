@@ -1,4 +1,4 @@
-package cellsociety;
+package cellsociety.cells;
 
 public class PredatorPreyCell extends Cell {
     private int myBreedTime;
@@ -39,7 +39,7 @@ public class PredatorPreyCell extends Cell {
             turnsLeft--;
         }
         if(dead()){
-            
+            nextState = 0;
         }
     }
     public boolean dead(){

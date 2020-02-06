@@ -1,4 +1,4 @@
-package cellsociety;
+package cellsociety.cells;
 
 public class Cell {
   protected int state;

@@ -1,6 +1,6 @@
 package cellsociety.simulations;
 
-import cellsociety.Cell;
+import cellsociety.cells.Cell;
 import cellsociety.Model;
 import cellsociety.Simulation;
 
