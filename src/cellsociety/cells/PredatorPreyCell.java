@@ -32,7 +32,15 @@ public class PredatorPreyCell extends Cell {
     }
 
     public void turn(){
-        myBreedTimeLeft--;
+        if(state!=0){
+            myBreedTimeLeft--;
+        }
+        if(state==2){
+            turnsLeft--;
+        }
+        if(dead()){
+            
+        }
     }
     public boolean dead(){
         return turnsLeft == 0;
