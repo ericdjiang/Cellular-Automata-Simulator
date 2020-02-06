@@ -29,8 +29,8 @@ public class XMLParser {
   public XMLParser(){
   }
 
-  public void initializeDocBuilder(File fname)throws SAXException, IOException,
-      ParserConfigurationException {
+  public void initializeDocBuilder(File fname)
+      throws Exception {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
         .newInstance();
     DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();

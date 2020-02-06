@@ -1,11 +1,15 @@
 package cellsociety.xml;
 
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+
 /**
  * This class represents what might go wrong when using XML files.
  *
  * @author Robert C. Duvall
  */
-public class XMLException extends RuntimeException {
+public class XMLException extends Exception {
   // for serialization
   private static final long serialVersionUID = 1L;
 
