@@ -45,5 +45,26 @@ public class Model {
     return myGrid.get(x).get(y);
   }
 
+  public ArrayList<Cell> getNeighbors(int x, int y, int diagonals){
+    Cell cell = getCell(x, y);
+    ArrayList<Cell> neighbors = new ArrayList<>();
+
+    int[] xSteps = new int[1];
+    int[] ySteps = new int[1];
+    if(diagonals == 8) {
+      xSteps = new int[]{0, 0, 1, -1, 1, 1, -1, -1};
+      ySteps = new int[]{1, -1, 0, 0, 1, -1, 1, -1};
+    }else if (diagonals == 4){
+      xSteps = new int[]{0, 0, 1, -1};
+      ySteps = new int[]{1, -1, 0, 0};
+    }
+    for(int i = 0; i < xSteps.length; i++){
+      Cell neighbor = getCell(x+xSteps[i], y+ySteps[i]);
+      if(neighbor != null)
+        neighbors.add(neighbor);
+    }
+    return neighbors;
+  }
+
 
 }

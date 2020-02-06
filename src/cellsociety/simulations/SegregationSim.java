@@ -8,52 +8,33 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SegregationSim extends Simulation {
-    private Model myModel;
     private double myThreshold;
-    ArrayList<ArrayList<Cell>> myGrid;
     ArrayList<int[]> myEmpties;
 
     public SegregationSim(Model model, double threshold) {
         super(model);
         myModel = model;
-        myGrid = myModel.getGrid();
         myEmpties = new ArrayList<>();
-        for(int i = 0; i < myGrid.size(); i++) {
-            for (int j = 0; j < myGrid.get(i).size(); j++) {
-                Cell cell = myGrid.get(i).get(j);
-                if(cell.getState() == 0){
-                    myEmpties.add(new int[]{cell.getX(), cell.getY()});
-                    System.out.println(cell);
+        for(int i = 0; i < myModel.getHeight(); i++) {
+            for (int j = 0; j < myModel.getWidth(); j++) {
+                if(myModel.getCell(i,j).getState() == 0){
+                    myEmpties.add(new int[]{i, j});
                 }
             }
         }
         myThreshold = threshold;
     }
-    @Override
-    protected ArrayList<Cell> getNeighbors(Cell cell){
-        ArrayList<Cell> neighbors = new ArrayList<>();
-        int x = cell.getX();
-        int y = cell.getY();
-        int[] xSteps = {0, 0, 1, -1, 1, 1, -1, -1};
-        int[] ySteps = {1, -1, 0, 0, 1, -1, 1, -1};
-        for(int i = 0; i < xSteps.length; i++){
-            Cell neighbor = myModel.getCell(x+xSteps[i], y+ySteps[i]);
-            if(neighbor != null)
-                neighbors.add(neighbor);
-        }
-        return neighbors;
-    }
 
     @Override
     protected void findNewStates() {
-        for(int i = 0; i < myGrid.size(); i++){
-            for(int j = 0; j < myGrid.get(i).size(); j++){
-                Cell cell = myGrid.get(i).get(j);
+        for(int i = 0; i < myModel.getHeight(); i++){
+            for(int j = 0; j < myModel.getWidth(); j++){
+                Cell cell = myModel.getCell(i,j);
                 if(cell.getState() == 0){
                     continue;
                 }
 
-                ArrayList<Cell> neighbors = getNeighbors(cell);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
                 int similarCount = 0;
                 int denominator = neighbors.size();
 

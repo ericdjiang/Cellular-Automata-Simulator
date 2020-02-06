@@ -40,7 +40,6 @@ public class PredatorPreySim extends Simulation {
         }
     }
 
-    @Override
     protected ArrayList<Cell> getNeighbors(Cell cell){
         ArrayList<Cell> neighbors = new ArrayList<>();
         int x = cell.getX();
