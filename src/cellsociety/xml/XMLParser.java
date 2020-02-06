@@ -40,23 +40,22 @@ public class XMLParser {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName()!="data") {
-        if(node.getNodeName()=="gridValues"){
+        /*if(node.getNodeName()=="gridValues"){
            gridASCII = node.getTextContent();
-        }else{
+        }else{*/
           simulationParams.put(node.getNodeName(), node.getTextContent());
-        }
-        if(node.getNodeName() == "gridHeight") {
+        //}
+        /*if(node.getNodeName() == "gridHeight") {
           myHeight = Integer.parseInt(node.getTextContent());
         }
         if(node.getNodeName() == "gridWidth") {
           myWidth = Integer.parseInt(node.getTextContent());
-        }
+        }*/
       }
     }
-    System.out.println("gridASCII = " + gridASCII.length());
   }
 
-  public ArrayList<ArrayList<Cell>> generateGridFromXML(){
+  /*public ArrayList<ArrayList<Cell>> generateGridFromXML(){
     int stringIdx = 0;
     ArrayList<ArrayList<Cell>> grid = new ArrayList <> ();
 
@@ -71,7 +70,7 @@ public class XMLParser {
     }
 
     return grid;
-  }
+  }*/
 
 
   public HashMap<String, String> getSimulationParams (){
