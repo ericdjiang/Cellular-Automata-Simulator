@@ -1,6 +1,9 @@
 package cellsociety.simulations;
 
 import cellsociety.*;
+import cellsociety.cells.Cell;
+import cellsociety.cells.FishCell;
+import cellsociety.cells.SharkCell;
 
 import java.util.ArrayList;
 import java.util.Random;
