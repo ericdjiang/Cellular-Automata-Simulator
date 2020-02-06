@@ -1,10 +1,10 @@
 package cellsociety;
 
 public class Cell {
-  private int state;
+  protected int state;
   private int x;
   private int y;
-  private int nextState;
+  protected int nextState;
   public Cell(int state, int x, int y){
     this.state = state;
     this.nextState = state;
