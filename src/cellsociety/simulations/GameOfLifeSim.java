@@ -15,6 +15,7 @@ public class GameOfLifeSim extends Simulation {
         myModel = model;
         myGrid = myModel.getGrid();
     }
+    /*
     @Override
     protected ArrayList<Cell> getNeighbors(Cell cell){
         ArrayList<Cell> neighbors = new ArrayList<>();
@@ -28,13 +29,14 @@ public class GameOfLifeSim extends Simulation {
                 neighbors.add(neighbor);
         }
         return neighbors;
-    }
+    }*/
+
     @Override
     protected void findNewStates() {
         for(int i = 0; i < myGrid.size(); i++){
             for(int j = 0; j < myGrid.get(i).size(); j++){
                 Cell cell = myGrid.get(i).get(j);
-                ArrayList<Cell> neighbors = getNeighbors(cell);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
                 int count = 0;
                 for(Cell c: neighbors){
                     count += c.getState();

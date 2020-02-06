@@ -18,7 +18,7 @@ public class FireSim extends Simulation {
         myGrid = myModel.getGrid();
         myCatchProb = catchProb;
     }
-    @Override
+/*
     protected ArrayList<Cell> getNeighbors(Cell cell){
         ArrayList<Cell> neighbors = new ArrayList<>();
         int x = cell.getX();
@@ -31,7 +31,7 @@ public class FireSim extends Simulation {
                 neighbors.add(neighbor);
         }
         return neighbors;
-    }
+    }*/
 
     @Override
     protected void findNewStates() {
@@ -47,7 +47,7 @@ public class FireSim extends Simulation {
 
                 boolean adjacentBurn = false;
 
-                ArrayList<Cell> neighbors = getNeighbors(cell);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 4);
                 double randomVal = new Random().nextDouble();
 
                 for(Cell c: neighbors){

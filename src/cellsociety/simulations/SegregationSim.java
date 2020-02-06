@@ -29,20 +29,6 @@ public class SegregationSim extends Simulation {
         }
         myThreshold = threshold;
     }
-    @Override
-    protected ArrayList<Cell> getNeighbors(Cell cell){
-        ArrayList<Cell> neighbors = new ArrayList<>();
-        int x = cell.getX();
-        int y = cell.getY();
-        int[] xSteps = {0, 0, 1, -1, 1, 1, -1, -1};
-        int[] ySteps = {1, -1, 0, 0, 1, -1, 1, -1};
-        for(int i = 0; i < xSteps.length; i++){
-            Cell neighbor = myModel.getCell(x+xSteps[i], y+ySteps[i]);
-            if(neighbor != null)
-                neighbors.add(neighbor);
-        }
-        return neighbors;
-    }
 
     @Override
     protected void findNewStates() {
@@ -53,7 +39,7 @@ public class SegregationSim extends Simulation {
                     continue;
                 }
 
-                ArrayList<Cell> neighbors = getNeighbors(cell);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
                 int similarCount = 0;
                 int denominator = neighbors.size();
 
