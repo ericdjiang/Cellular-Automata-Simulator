@@ -1,6 +1,9 @@
 package cellsociety.simulations;
 
 import cellsociety.*;
+import cellsociety.cells.Cell;
+import cellsociety.cells.FishCell;
+import cellsociety.cells.SharkCell;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,7 +43,6 @@ public class PredatorPreySim extends Simulation {
         }
     }
 
-    @Override
     protected ArrayList<Cell> getNeighbors(Cell cell){
         ArrayList<Cell> neighbors = new ArrayList<>();
         int x = cell.getX();

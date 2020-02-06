@@ -79,13 +79,16 @@ public class Main extends Application {
    // Read in parameters and layout from XML
    myXMLParser = new XMLParser();
    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
-   ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
+   //ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
    simulationParams = myXMLParser.getSimulationParams();
+   int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
+   int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
+   String configString = simulationParams.get("gridValues");
    System.out.println(simulationParams);
 
    // Generate Model
-   myModel = new Model(grid);
-
+   //myModel = new Model(grid);
+   myModel = new Model(gridHeight, gridWidth, configString);
    switch(simulationParams.get("simName")){
      case "Game of Life":
        mySimulation = new GameOfLifeSim(myModel);
