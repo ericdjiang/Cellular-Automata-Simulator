@@ -25,8 +25,6 @@ public class Main extends Application {
 
   // Simulation specific params
   private Timeline animation;
-  private static final String SIMULATION_NAME = "fire";
-  public static final String TITLE = SIMULATION_NAME.toUpperCase() + " Simulation";
 
   // Class objects
   private XMLParser myXMLParser;
@@ -83,12 +81,29 @@ public class Main extends Application {
    simulationParams = myXMLParser.getSimulationParams();
    int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
    int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
-   String configString = simulationParams.get("gridValues");
-   System.out.println(simulationParams);
+   String assignmentType = simulationParams.get("assignmentType");
+   if(assignmentType.equals("probability")){
+     ArrayList<Double> probs = new ArrayList<>();
+     probs.add(Double.valueOf(simulationParams.get("state0")));
+     int counter = 1;
+     while(true){
+       System.out.println("probs.get(counter-1) = " + probs.get(counter - 1));
+       String prob = simulationParams.get("state" + counter);
+       if(prob == null){
+         break;
+       }
+       probs.add(Double.valueOf(prob) + probs.get(counter-1));
+       counter++;
+     }
+     myModel = new Model(gridHeight, gridWidth, probs);
+   }
+   else if(assignmentType.equals("preset")) {
+     String configString = simulationParams.get("gridValues");
+     myModel = new Model(gridHeight, gridWidth, configString);
+   }
 
    // Generate Model
    //myModel = new Model(grid);
-   myModel = new Model(gridHeight, gridWidth, configString);
    switch(simulationParams.get("simName")){
      case "Game of Life":
        mySimulation = new GameOfLifeSim(myModel);
