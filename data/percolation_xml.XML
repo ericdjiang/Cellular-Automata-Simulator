@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+    <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
+    <simName>Percolation</simName>
+    <color0>0x000000</color0>
+    <color1>0xffffff</color1>
+    <color2>0x0000ff</color2>
+    <gridHeight>10</gridHeight>
+    <gridWidth>10</gridWidth>
+    <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
+</data>

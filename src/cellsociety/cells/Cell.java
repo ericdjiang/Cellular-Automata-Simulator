@@ -1,10 +1,10 @@
-package cellsociety;
+package cellsociety.cells;
 
 public class Cell {
-  private int state;
+  protected int state;
   private int x;
   private int y;
-  private int nextState;
+  protected int nextState;
   public Cell(int state, int x, int y){
     this.state = state;
     this.nextState = state;
@@ -26,6 +26,15 @@ public class Cell {
   public int getY() {
     return y;
   }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
+
   public void updateState(){
     state = nextState;
   }

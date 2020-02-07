@@ -1,9 +1,6 @@
 package cellsociety;
 
-import cellsociety.simulations.FireSim;
-import cellsociety.simulations.GameOfLifeSim;
-import cellsociety.simulations.PercolationSim;
-import cellsociety.simulations.SegregationSim;
+import cellsociety.simulations.*;
 import cellsociety.visualization.Visualizer;
 import cellsociety.xml.XMLParser;
 import java.io.File;
@@ -82,13 +79,16 @@ public class Main extends Application {
    // Read in parameters and layout from XML
    myXMLParser = new XMLParser();
    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
-   ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
+   //ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
    simulationParams = myXMLParser.getSimulationParams();
+   int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
+   int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
+   String configString = simulationParams.get("gridValues");
    System.out.println(simulationParams);
 
    // Generate Model
-   myModel = new Model(grid);
-
+   //myModel = new Model(grid);
+   myModel = new Model(gridHeight, gridWidth, configString);
    switch(simulationParams.get("simName")){
      case "Game of Life":
        mySimulation = new GameOfLifeSim(myModel);
@@ -98,12 +98,14 @@ public class Main extends Application {
        System.out.println("catchProb = " + catchProb);
        mySimulation = new FireSim(myModel, catchProb);
        break;
-     case "percolation":
+     case "Percolation":
        mySimulation = new PercolationSim(myModel);
        break;
-     case "segregation":
+     case "Segregation":
        mySimulation = new SegregationSim(myModel, Double.parseDouble(simulationParams.get("threshold")));
        break;
+     case "PredatorPrey":
+       mySimulation = new PredatorPreySim(myModel, Integer.parseInt(simulationParams.get("breedTime")), Integer.parseInt(simulationParams.get("starveTime")));
      default:
        break;
    }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data>
   <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
-  <simName>Fire</simName>
+  <simName>Game of Life</simName>
   <color0>0x000000</color0>
-  <color1>0xffff00</color1>
+  <color1>0x00ff00</color1>
   <color2>0xff0000</color2>
-  <catchProb>0.3</catchProb>
+
   <gridHeight>10</gridHeight>
   <gridWidth>10</gridWidth>
-  <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
+  <gridValues>0000011111000001111100000000011111111110000111100001111011111011111110000000000111110111011100000101</gridValues>
 
 </data>
