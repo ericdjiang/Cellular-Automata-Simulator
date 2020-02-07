@@ -6,8 +6,8 @@
     <color1>0xff0000</color1>
     <color2>0x0000ff</color2>
     <threshold>0.3</threshold>
-    <gridHeight>10</gridHeight>
-    <gridWidth>10</gridWidth>
+    <gridHeight>100</gridHeight>
+    <gridWidth>100</gridWidth>
     <assignmentType>probability</assignmentType>
     <state0>0.2</state0>
     <state1>0.5</state1>
