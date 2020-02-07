@@ -39,7 +39,6 @@ public class GameOfLifeSim extends Simulation {
                 for(Cell c: neighbors){
                     count += c.getState();
                 }
-
                 if(count == 3){
                     cell.setNextState(1);
                 }
