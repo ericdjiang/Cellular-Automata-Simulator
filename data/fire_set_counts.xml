@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+    <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
+    <simName>Fire</simName>
+    <color0>0x000000</color0>
+    <color1>0xffff00</color1>
+    <color2>0xff0000</color2>
+    <catchProb>0.3</catchProb>
+    <gridHeight>10</gridHeight>
+    <gridWidth>10</gridWidth>
+    <assignmentType>counts</assignmentType>
+    <state0>10</state0>
+    <state1>89</state1>
+    <state2>1</state2>
+</data>

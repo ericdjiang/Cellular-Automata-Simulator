@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class Main extends Application {
+  public static final String COUNT_STRING = "count";
+  public static final String PROB_STRING = "probability";
   // Default simulation speed
 //  private final int FRAMES_PER_SECOND = 60;
   private int millisecondDelay = 1000;
@@ -87,7 +89,6 @@ public class Main extends Application {
      probs.add(Double.valueOf(simulationParams.get("state0")));
      int counter = 1;
      while(true){
-       System.out.println("probs.get(counter-1) = " + probs.get(counter - 1));
        String prob = simulationParams.get("state" + counter);
        if(prob == null){
          break;
@@ -95,7 +96,20 @@ public class Main extends Application {
        probs.add(Double.valueOf(prob) + probs.get(counter-1));
        counter++;
      }
-     myModel = new Model(gridHeight, gridWidth, probs);
+     myModel = new Model(gridHeight, gridWidth, probs, PROB_STRING);
+   }
+   else if(assignmentType.equals("counts")){
+     int counter = 0;
+     ArrayList<Double> counts = new ArrayList<>();
+     while(true){
+       String count = simulationParams.get("state" + counter);
+       if(count == null){
+         break;
+       }
+       counts.add(Double.valueOf(count));
+       counter++;
+     }
+     myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING);
    }
    else if(assignmentType.equals("preset")) {
      String configString = simulationParams.get("gridValues");

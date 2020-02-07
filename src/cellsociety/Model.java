@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Model {
+  public static final String COUNT_STRING = "count";
+  public static final String PROB_STRING = "probability";
+
   private int myHeight;
   private int myWidth;
   private ArrayList<ArrayList<Cell>> myGrid;
@@ -30,7 +33,7 @@ public class Model {
     myGrid =  grid;
   }
 
-  public Model(int height, int width, ArrayList<Double> probs){
+  public Model(int height, int width, ArrayList<Double> list, String type){
     myHeight = height;
     myWidth = width;
     ArrayList<ArrayList<Cell>> grid = new ArrayList<>();
@@ -38,14 +41,19 @@ public class Model {
     for(int i = 0; i < myHeight; i++){
       grid.add(new ArrayList<>());
       for(int j = 0; j < myWidth; j++){
-        int state = findState(probs);
+        int state = 0;
+        if(type.equals(PROB_STRING)) {
+          state = findStateFromProbability(list);
+        }else if(type.equals(COUNT_STRING)){
+          state = findStateFromCount(list);
+        }
         grid.get(i).add(new Cell(state, i, j));
       }
     }
     myGrid = grid;
   }
 
-  private int findState(ArrayList<Double> probs){
+  private int findStateFromProbability(ArrayList<Double> probs){
     double randDouble = new Random().nextDouble();
     for(int i =  0; i < probs.size(); i++){
       if(randDouble < probs.get(i)){
@@ -54,6 +62,16 @@ public class Model {
     }
     return 0;
   }
+
+  private int findStateFromCount(ArrayList<Double> counts){
+    int randInt = new Random().nextInt(counts.size());
+    while(counts.get(randInt) <= 0){
+      randInt = new Random().nextInt(counts.size());
+    }
+    counts.set(randInt, counts.get(randInt) -  1);
+    return randInt;
+  }
+
   public ArrayList<ArrayList<Cell>> getGrid(){
     return myGrid;
   }
