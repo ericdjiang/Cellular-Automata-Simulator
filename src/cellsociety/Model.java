@@ -11,14 +11,17 @@ public class Model {
 
   private int myHeight;
   private int myWidth;
+  private boolean myFinite;
   private ArrayList<ArrayList<Cell>> myGrid;
 
-  public Model(ArrayList<ArrayList<Cell>> grid){
+  /*public Model(ArrayList<ArrayList<Cell>> grid){
     myGrid = grid;
-  }
-  public Model(int height, int width, String configString){
+  }*/
+
+  public Model(int height, int width, String configString, boolean finite){
     myHeight = height;
     myWidth = width;
+    myFinite = finite;
     int stringIdx = 0;
     ArrayList<ArrayList<Cell>> grid = new ArrayList <> ();
 
@@ -33,9 +36,10 @@ public class Model {
     myGrid =  grid;
   }
 
-  public Model(int height, int width, ArrayList<Double> list, String type){
+  public Model(int height, int width, ArrayList<Double> list, String type, boolean finite){
     myHeight = height;
     myWidth = width;
+    myFinite = finite;
     ArrayList<ArrayList<Cell>> grid = new ArrayList<>();
 
     for(int i = 0; i < myHeight; i++){
@@ -72,10 +76,6 @@ public class Model {
     return randInt;
   }
 
-  public ArrayList<ArrayList<Cell>> getGrid(){
-    return myGrid;
-  }
-
   public int getHeight(){
     return myHeight;
   }
@@ -84,15 +84,30 @@ public class Model {
     return myWidth;
   }
   public Cell getCell(int x, int y){
-    if(x >= myGrid.size() || x < 0){
-      return null;}
-    if(y >= myGrid.get(x).size() || y < 0){
-      return null;}
+    if(myFinite) {
+      if (x >= myGrid.size() || x < 0) {
+        return null;
+      }
+      if (y >= myGrid.get(x).size() || y < 0) {
+        return null;
+      }
+    }
+    else {
+      if (x >= myGrid.size()){
+        x -= myGrid.size();
+      }else if(x < 0){
+        x += myGrid.size();
+      }
+      if (y >= myGrid.get(x).size()){
+        y -= myGrid.get(x).size();
+      }else if(y < 0){
+        y += myGrid.get(x).size();
+      }
+    }
     return myGrid.get(x).get(y);
   }
 
   public ArrayList<Cell> getNeighbors(int x, int y, int diagonals){
-    Cell cell = getCell(x, y);
     ArrayList<Cell> neighbors = new ArrayList<>();
 
     int[] xSteps = new int[1];

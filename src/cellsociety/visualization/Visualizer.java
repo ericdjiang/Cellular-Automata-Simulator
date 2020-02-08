@@ -161,7 +161,7 @@ public class Visualizer {
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
 
     for (int i = 0; i < PARAM_ROWS; i++){
-      int startX = GRID_WIDTH - cellWidth*myModel.getGrid().get(i).size()/2;
+      int startX = GRID_WIDTH - cellWidth*myModel.getWidth()/2;
       for (int j = 0; j < PARAM_COLS; j++) {
         String color0 = mySimulationParams.get("color0");
         String color1 = mySimulationParams.get("color1");

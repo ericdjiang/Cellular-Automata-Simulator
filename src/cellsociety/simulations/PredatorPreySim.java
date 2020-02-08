@@ -21,7 +21,7 @@ public class PredatorPreySim extends Simulation {
         myModel = model;
         myBreedTime = breedTime;
         myStarveTime = starveTime;
-        myGrid = myModel.getGrid();
+        //myGrid = myModel.getGrid();
         myEmpties = new ArrayList<>();
         myFish = new ArrayList<>();
         mySharks = new ArrayList<>();
