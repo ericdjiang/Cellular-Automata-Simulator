@@ -20,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 
 public class Visualizer {
@@ -165,7 +166,6 @@ public class Visualizer {
     boolean edge = true;
     for (int i = 0; i < PARAM_ROWS; i++){
       for (int j = 0; j < PARAM_COLS; j++) {
-        //VisualCellRectangle cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
         double x = cellWidth*j/2 + startX;
         double y = cellHeight*i;
         if(j == 0 || j == PARAM_COLS - 1){
@@ -174,7 +174,14 @@ public class Visualizer {
         else{
           edge = false;
         }
-        VisualCellTriangle cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, edge);
+        Shape cell;
+        switch(mySimulationParams.get("cellShape")){
+          case "triangle":
+            cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, edge);
+            break;
+          default:
+            cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        }
         gridWrapper.getChildren().add(cell);
         up = !up;
       }

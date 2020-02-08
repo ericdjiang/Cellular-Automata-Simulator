@@ -10,6 +10,7 @@
   <gridWidth>10</gridWidth>
   <assignmentType>preset</assignmentType>
   <edgeType>finite</edgeType>
+  <cellShape>triangle</cellShape>
   <stateLabels>empty, live, burning</stateLabels>
   <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
 
