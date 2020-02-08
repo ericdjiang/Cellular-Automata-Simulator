@@ -7,6 +7,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.scene.Node;
@@ -40,12 +41,14 @@ public class Visualizer {
   private Button configButton;
 
   private int lastX = 0;
-  private XYChart.Series myStateCount = new XYChart.Series();
+
+  private ArrayList<XYChart.Series> allSeries = new ArrayList<>();
   // Simulation objects
   private Group gridWrapper = new Group();
   private Group graphWrapper = new Group();
   private Slider slider;
 
+  private String[] labelList;
   // Simulation states
   private boolean simPaused = true;
   private boolean xmlLoaded = true;
@@ -57,8 +60,15 @@ public class Visualizer {
     this.PARAM_COLS = Integer.parseInt(simulationParams.get("gridWidth"));
     this.PARAM_ROWS = Integer.parseInt(simulationParams.get("gridHeight"));
     this.mySimulation = simulation;
+    this.labelList = simulationParams.get("stateLabels").split(",");
+    initializeSeriesList();
   }
 
+  private void initializeSeriesList(){
+    for(int i = 0; i < labelList.length; i++){
+      allSeries.add(new XYChart.Series<>());
+    }
+  }
   public Scene makeScene(){
     BorderPane root = new BorderPane();
     root.setLeft(gridWrapper);
@@ -164,13 +174,14 @@ public class Visualizer {
     final LineChart<Number,Number> lineChart =
             new LineChart<>(xAxis,yAxis);
 
+
     lineChart.setTitle("State count");
+    for(int i = 0; i < allSeries.size(); i++){
+      allSeries.get(i).setName(labelList[i]);
+      allSeries.get(i).getData().add(new XYChart.Data(lastX, myModel.numState(i)));
+      lineChart.getData().add(allSeries.get(i));
+    }
 
-    myStateCount.setName("State zero");
-
-
-    myStateCount.getData().add(new XYChart.Data(lastX, myModel.numState(1)));
-    lineChart.getData().add(myStateCount);
     graphWrapper.getChildren().add(lineChart);
     lastX ++;
   }
