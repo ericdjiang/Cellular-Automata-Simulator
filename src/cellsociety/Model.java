@@ -127,5 +127,16 @@ public class Model {
     return neighbors;
   }
 
+  public int numState(int state){
+    int count = 0;
+    for(int i = 0; i < myHeight; i++){
+      for(int j = 0; j < myWidth; j++){
+        if(getCell(i, j).getState() == state){
+          count++;
+        }
+      }
+    }
+    return count;
+  }
 
 }

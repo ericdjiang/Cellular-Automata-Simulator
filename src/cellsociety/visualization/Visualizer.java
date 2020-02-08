@@ -2,45 +2,21 @@ package cellsociety.visualization;
 
 import cellsociety.Model;
 import cellsociety.Simulation;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
-import javafx.scene.shape.Rectangle;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import javafx.animation.Timeline;
-import javafx.geometry.Insets;
+
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
-import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.web.WebView;
-import javax.imageio.ImageIO;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 
 public class Visualizer {
@@ -56,15 +32,18 @@ public class Visualizer {
   private int GRID_HEIGHT = 400;
 
   private int STAGE_HEIGHT = GRID_HEIGHT + 200;
-  private int STAGE_WIDTH = GRID_WIDTH;
+  private int STAGE_WIDTH = GRID_WIDTH + 400;
   // Buttons
   private Button playButton;
   private Button stopButton;
   private Button stepButton;
   private Button configButton;
 
+  private int lastX = 0;
+  private XYChart.Series myStateCount = new XYChart.Series();
   // Simulation objects
   private Group gridWrapper = new Group();
+  private Group graphWrapper = new Group();
   private Slider slider;
 
   // Simulation states
@@ -82,10 +61,11 @@ public class Visualizer {
 
   public Scene makeScene(){
     BorderPane root = new BorderPane();
-
-    root.setCenter(gridWrapper);
+    root.setLeft(gridWrapper);
+    root.setRight(graphWrapper);
+    //root.setCenter(gridWrapper);
     displayNewGrid();
-
+    addGraph();
 //    root.setTop(makeTopPanel());
 
     root.setBottom(makeInputPanel());
@@ -151,11 +131,15 @@ public class Visualizer {
   public void runSimulation(){
     clearOldGrid();
     displayNewGrid();
+    clearOldGraph();
+    addGraph();
   }
   private void clearOldGrid() {
     gridWrapper.getChildren().clear();
   }
-
+  private void clearOldGraph() {
+    graphWrapper.getChildren().clear();
+  }
   private void displayNewGrid(){
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
@@ -171,5 +155,23 @@ public class Visualizer {
         gridWrapper.getChildren().add(cell);
       }
     }
+  }
+
+  private void addGraph(){
+    final NumberAxis xAxis = new NumberAxis();
+    final NumberAxis yAxis = new NumberAxis();
+    xAxis.setLabel("Time");
+    final LineChart<Number,Number> lineChart =
+            new LineChart<>(xAxis,yAxis);
+
+    lineChart.setTitle("State count");
+
+    myStateCount.setName("State zero");
+
+
+    myStateCount.getData().add(new XYChart.Data(lastX, myModel.numState(1)));
+    lineChart.getData().add(myStateCount);
+    graphWrapper.getChildren().add(lineChart);
+    lastX ++;
   }
 }
