@@ -2,6 +2,7 @@ package cellsociety.visualization;
 
 import cellsociety.Model;
 import cellsociety.Simulation;
+import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -44,6 +45,7 @@ public class Visualizer {
   private int lastX = 0;
 
   private ArrayList<XYChart.Series> allSeries = new ArrayList<>();
+  private String[] memorizedStyles;
   // Simulation objects
   private Group gridWrapper = new Group();
   private Group graphWrapper = new Group();
@@ -69,6 +71,7 @@ public class Visualizer {
     for(int i = 0; i < labelList.length; i++){
       allSeries.add(new XYChart.Series<>());
     }
+    memorizedStyles = new String[labelList.length];
   }
   public Scene makeScene(){
     BorderPane root = new BorderPane();
@@ -184,20 +187,32 @@ public class Visualizer {
       curr.getData().add(data);
       lineChart.getData().add(curr);
 
-      String color = mySimulationParams.get("color" + i);
-      style(allSeries.get(i).getNode(), data, color);
+
+      style(allSeries.get(i).getNode(), data, i);
     }
     graphWrapper.getChildren().add(lineChart);
     lastX ++;
+    Platform.runLater(() -> {
+      for (Node node: lineChart.lookupAll(".chart-legend-item-symbol"))
+        for (String styleClass: node.getStyleClass())
+          if (styleClass.startsWith("series")) {
+            final int i = Integer.parseInt(styleClass.substring(6));
+            node.setStyle(memorizedStyles[i]);
+            break;
+          }
+    });
   }
 
-  private void style(Node node, XYChart.Data<Number, Number> data, String color){
+  private void style(Node node, XYChart.Data<Number, Number> data, int idx){
+    String color = mySimulationParams.get("color" + idx);
     String colorString = getRGBString(color);
     Node line = node.lookup(".chart-series-line");
     line.setStyle("-fx-stroke: " + colorString);
 
     Node fill = data.getNode().lookup(".chart-line-symbol");
     fill.setStyle("-fx-background-color: " + colorString + ", whitesmoke");
+
+    memorizedStyles[idx] = "-fx-background-color: " + colorString + ", whitesmoke";
   }
 
   private String getRGBString(String colorString){
