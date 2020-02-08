@@ -8,6 +8,8 @@
     <catchProb>0.3</catchProb>
     <gridHeight>10</gridHeight>
     <gridWidth>10</gridWidth>
+    <stateLabels>empty, live, burning</stateLabels>
+    <edgeType>finite</edgeType>
     <assignmentType>counts</assignmentType>
     <state0>10</state0>
     <state1>89</state1>

@@ -9,6 +9,8 @@
     <starveTime>10</starveTime>
     <gridHeight>10</gridHeight>
     <gridWidth>10</gridWidth>
+    <stateLabels>kelp, fish, shark</stateLabels>
+    <edgeType>finite</edgeType>
     <assignmentType>preset</assignmentType>
     <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
 </data>
