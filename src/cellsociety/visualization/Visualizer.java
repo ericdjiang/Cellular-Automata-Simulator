@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 
 
 public class Visualizer {
@@ -181,19 +182,31 @@ public class Visualizer {
       curr.setName(labelList[i]);
       XYChart.Data<Number, Number> data = new XYChart.Data(lastX, myModel.numState(i));
       curr.getData().add(data);
-      
       lineChart.getData().add(curr);
-      style(allSeries.get(i).getNode(), data);
+
+      String color = mySimulationParams.get("color" + i);
+      style(allSeries.get(i).getNode(), data, color);
     }
     graphWrapper.getChildren().add(lineChart);
     lastX ++;
   }
 
-  private void style(Node node, XYChart.Data<Number, Number> data){
+  private void style(Node node, XYChart.Data<Number, Number> data, String color){
+    String colorString = getRGBString(color);
     Node line = node.lookup(".chart-series-line");
-    line.setStyle("-fx-stroke: rgba(255, 255, 255, 1.0)");
+    line.setStyle("-fx-stroke: " + colorString);
 
     Node fill = data.getNode().lookup(".chart-line-symbol");
-    fill.setStyle("-fx-background-color: rgba(255, 255, 255, 1.0), whitesmoke");
+    fill.setStyle("-fx-background-color: " + colorString + ", whitesmoke");
+  }
+
+  private String getRGBString(String colorString){
+    Color color = Color.web(colorString);
+    String ret =String.format( "rgba(%d, %d, %d, 1.0)",
+            (int)( color.getRed() * 255 ),
+            (int)( color.getGreen() * 255 ),
+            (int)( color.getBlue() * 255 ) );
+    System.out.println("ret = " + ret);
+    return ret;
   }
 }
