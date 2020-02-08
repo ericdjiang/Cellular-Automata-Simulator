@@ -177,12 +177,23 @@ public class Visualizer {
 
     lineChart.setTitle("State count");
     for(int i = 0; i < allSeries.size(); i++){
-      allSeries.get(i).setName(labelList[i]);
-      allSeries.get(i).getData().add(new XYChart.Data(lastX, myModel.numState(i)));
-      lineChart.getData().add(allSeries.get(i));
+      XYChart.Series curr = allSeries.get(i);
+      curr.setName(labelList[i]);
+      XYChart.Data<Number, Number> data = new XYChart.Data(lastX, myModel.numState(i));
+      curr.getData().add(data);
+      
+      lineChart.getData().add(curr);
+      style(allSeries.get(i).getNode(), data);
     }
-
     graphWrapper.getChildren().add(lineChart);
     lastX ++;
+  }
+
+  private void style(Node node, XYChart.Data<Number, Number> data){
+    Node line = node.lookup(".chart-series-line");
+    line.setStyle("-fx-stroke: rgba(255, 255, 255, 1.0)");
+
+    Node fill = data.getNode().lookup(".chart-line-symbol");
+    fill.setStyle("-fx-background-color: rgba(255, 255, 255, 1.0), whitesmoke");
   }
 }
