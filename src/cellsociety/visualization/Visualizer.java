@@ -157,17 +157,28 @@ public class Visualizer {
   private void displayNewGrid(){
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
-
+    int startX = GRID_WIDTH - cellWidth*myModel.getWidth()/2;
+    boolean up = true;
+    String color0 = mySimulationParams.get("color0");
+    String color1 = mySimulationParams.get("color1");
+    String color2 = mySimulationParams.get("color2");
+    boolean edge = true;
     for (int i = 0; i < PARAM_ROWS; i++){
-      int startX = GRID_WIDTH - cellWidth*myModel.getWidth()/2;
       for (int j = 0; j < PARAM_COLS; j++) {
-        String color0 = mySimulationParams.get("color0");
-        String color1 = mySimulationParams.get("color1");
-        String color2 = mySimulationParams.get("color2");
-
-        VisualCellRectangle cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        //VisualCellRectangle cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        double x = cellWidth*j/2 + startX;
+        double y = cellHeight*i;
+        if(j == 0 || j == PARAM_COLS - 1){
+          edge = true;
+        }
+        else{
+          edge = false;
+        }
+        VisualCellTriangle cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, edge);
         gridWrapper.getChildren().add(cell);
+        up = !up;
       }
+
     }
   }
 
@@ -221,7 +232,6 @@ public class Visualizer {
             (int)( color.getRed() * 255 ),
             (int)( color.getGreen() * 255 ),
             (int)( color.getBlue() * 255 ) );
-    System.out.println("ret = " + ret);
     return ret;
   }
 }

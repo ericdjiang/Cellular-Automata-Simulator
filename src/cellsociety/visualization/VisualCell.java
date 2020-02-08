@@ -2,21 +2,19 @@ package cellsociety.visualization;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
-public interface VisualCell{
-  /*private Color myColor0;
+public abstract class VisualCell extends Shape {
+  private Color myColor0;
   private Color myColor1;
   private Color myColor2;
+
   public VisualCell(double x, double y, double width, double height, int state, String color0, String color1, String color2){
-
-
     myColor0 = Color.web(color0, 1.0);
     myColor1 = Color.web(color1, 1.0);
     myColor2 = Color.web(color2, 1.0);
     setColor(state);
-  }*/
-  void setColor(int state);
-  /*
+  }
   private void setColor(int state){
     switch(state){
       case 2:
@@ -29,6 +27,6 @@ public interface VisualCell{
         setFill(myColor0);
         break;
     }
-  }*/
+  }
 
 }
