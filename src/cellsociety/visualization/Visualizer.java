@@ -165,7 +165,7 @@ public class Visualizer {
         String color1 = mySimulationParams.get("color1");
         String color2 = mySimulationParams.get("color2");
 
-        VisualCell cell = new VisualCell(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        VisualCellRectangle cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
         gridWrapper.getChildren().add(cell);
       }
     }
