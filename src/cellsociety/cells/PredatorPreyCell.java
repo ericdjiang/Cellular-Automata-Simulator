@@ -9,8 +9,8 @@ public class PredatorPreyCell extends Cell {
 
     private boolean moved;
 
-    public PredatorPreyCell(int state, int x, int y, int breedTime, int starveTime) {
-        super(state, x, y);
+    public PredatorPreyCell(int state, int breedTime, int starveTime) {
+        super(state);
         myBreedTime = breedTime;
         myBreedTimeLeft = myBreedTime;
 

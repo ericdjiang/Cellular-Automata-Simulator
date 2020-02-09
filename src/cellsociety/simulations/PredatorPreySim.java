@@ -2,9 +2,7 @@ package cellsociety.simulations;
 
 import cellsociety.*;
 import cellsociety.cells.Cell;
-import cellsociety.cells.FishCell;
 import cellsociety.cells.PredatorPreyCell;
-import cellsociety.cells.SharkCell;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,24 +10,16 @@ import java.util.Random;
 public class PredatorPreySim extends Simulation {
     private int myBreedTime;
     private int myStarveTime;
-    ArrayList<int[]> myEmpties;
-    ArrayList<int[]> myFish;
-    ArrayList<int[]> mySharks;
+
+
     public PredatorPreySim(Model model, int breedTime, int starveTime) {
         super(model);
         myModel = model;
         myBreedTime = breedTime;
         myStarveTime = starveTime;
-        myEmpties = new ArrayList<>();
-        myFish = new ArrayList<>();
-        mySharks = new ArrayList<>();
         for(int i = 0; i < myModel.getHeight(); i++) {
             for (int j = 0; j < myModel.getWidth(); j++) {
-                Cell cell = myModel.getCell(i,j);
-                myModel.setCell(i,j,new PredatorPreyCell(cell.getState(),i,j,myBreedTime,myStarveTime));
-                if(cell.getState() == 0) {
-                    myEmpties.add(new int[]{cell.getX(), cell.getY()});
-                }
+                myModel.setCell(i,j,new PredatorPreyCell(myModel.getCell(i,j).getState(),myBreedTime,myStarveTime));
             }
         }
     }
@@ -106,12 +96,12 @@ public class PredatorPreySim extends Simulation {
     }
 
     private Cell newFishCell(){
-        return new PredatorPreyCell(1,0,0,myBreedTime,myStarveTime);
+        return new PredatorPreyCell(1,myBreedTime,myStarveTime);
     }
     private Cell newSharkCell(){
-        return new PredatorPreyCell(2,0,0,myBreedTime,myStarveTime);
+        return new PredatorPreyCell(2,myBreedTime,myStarveTime);
     }
     private Cell newEmptyCell(){
-        return new PredatorPreyCell(0,0,0,myBreedTime,myStarveTime);
+        return new PredatorPreyCell(0,myBreedTime,myStarveTime);
     }
 }
