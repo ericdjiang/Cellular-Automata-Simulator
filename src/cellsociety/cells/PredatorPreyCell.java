@@ -5,7 +5,9 @@ public class PredatorPreyCell extends Cell {
     private int myBreedTimeLeft;
 
     private int myStarveTime;
-    private int turnsLeft;
+    private int myStarveTimeLeft;
+
+    private boolean moved;
 
     public PredatorPreyCell(int state, int x, int y, int breedTime, int starveTime) {
         super(state, x, y);
@@ -13,39 +15,65 @@ public class PredatorPreyCell extends Cell {
         myBreedTimeLeft = myBreedTime;
 
         myStarveTime = starveTime;
-        turnsLeft = starveTime;
+        myStarveTimeLeft = starveTime;
+        moved=false;
     }
 
     public boolean breed(){
-        if(myBreedTimeLeft == 0){
+        if(myBreedTimeLeft <= 0){
             myBreedTimeLeft = myBreedTime;
             return true;
         }
         return false;
     }
+
     @Override
     public void updateState(){
-        if(nextState!=state){
-            eat();
-            breed();
-        }
-    }
-
-    public void turn(){
         if(state!=0){
             myBreedTimeLeft--;
         }
         if(state==2){
-            turnsLeft--;
+            myStarveTimeLeft--;
         }
         if(dead()){
-            nextState = 0;
+            state = 0;
+            myStarveTimeLeft=myStarveTime;
+            myBreedTimeLeft=myBreedTime;
         }
+        moved=false;
     }
+
+    public boolean hasMoved(){
+        return moved;
+    }
+
+    private void move(){
+        moved=true;
+    }
+
+    public void eaten(PredatorPreyCell shark) {
+        state = 2;
+        move();
+        myStarveTimeLeft = myStarveTime;
+        myBreedTimeLeft=shark.getBreedTime();
+    }
+
+    public int getBreedTime(){
+        return myBreedTimeLeft;
+    }
+
+    public int getStarveTime(){
+        return myStarveTimeLeft;
+    }
+
+    public void movedInBy(PredatorPreyCell cell){
+        state = cell.getState();
+        move();
+        myStarveTimeLeft = cell.getStarveTime();
+        myBreedTimeLeft=cell.getBreedTime();
+    }
+
     public boolean dead(){
-        return turnsLeft == 0;
-    }
-    public void eat(){
-        turnsLeft = myStarveTime;
+        return myStarveTimeLeft <= 0;
     }
 }
