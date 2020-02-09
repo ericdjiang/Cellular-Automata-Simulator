@@ -2,11 +2,14 @@ package cellsociety.visualization;
 
 import cellsociety.Model;
 import cellsociety.Simulation;
+import cellsociety.xml.XMLException;
 import cellsociety.xml.XMLGenerator;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Slider;
 
 import java.util.ArrayList;
@@ -100,8 +103,14 @@ public class Visualizer {
     stopSimulation();
 
     XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams);
-    
-    System.out.println("saving");
+    try {
+      xmlGenerator.generateFile();
+      Alert alert = new Alert(AlertType.INFORMATION, "File generated: ");
+      alert.show();
+    } catch(XMLException e){
+      Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+      alert.show();
+    }
   }
 
   // Making input panel to hold buttons and sliders
