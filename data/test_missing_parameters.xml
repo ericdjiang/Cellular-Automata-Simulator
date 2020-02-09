@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+  <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
+  <simName>Segregation</simName>
+  <color0>0x000000</color0>
+  <color1>0xff0000</color1>
+  <color2>0x0000ff</color2>
+  <threshold>0.3</threshold>
+  <gridHeight>10</gridHeight>
+  <assignmentType>preset</assignmentType>
+  <stateLabels>empty, group A, group B</stateLabels>
+  <edgeType>finite</edgeType>
+  <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
+</data>

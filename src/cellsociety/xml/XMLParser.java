@@ -23,7 +23,7 @@ public class XMLParser {
   private int myHeight;
   private int myWidth;
 
-  List <String> presetParams = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
+  private final List <String> PRESET_PARAMS = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
 
   public XMLParser(){
   }
@@ -38,17 +38,17 @@ public class XMLParser {
 
   private boolean checkParamsExist(List<String> paramsToCheck){
     for (String param: paramsToCheck) {
-      if(!simulationParams.containsKey("simName")) return false;
+      if(!simulationParams.containsKey(param)) return false;
     }
     return true;
   }
 
   private boolean validateGridValues(){
     if(simulationParams.get("assignmentType").equals("preset")){
-        return(checkParamsExist(presetParams) &&
-            (simulationParams.get("gridValues").matches("[a-zA-Z3-9]+") ||
-                simulationParams.get("gridValues").length() != Integer.parseInt(simulationParams.get("gridWidth"))*Integer.parseInt(simulationParams.get("gridHeight"))
-            )
+      System.out.println(!simulationParams.get("gridValues").matches("[a-zA-Z3-9]+"));
+        return(checkParamsExist(PRESET_PARAMS) &&
+            !simulationParams.get("gridValues").matches("[a-zA-Z3-9]+") &&
+            simulationParams.get("gridValues").length() == Integer.parseInt(simulationParams.get("gridWidth"))*Integer.parseInt(simulationParams.get("gridHeight"))
         );
       }
 
@@ -80,6 +80,8 @@ public class XMLParser {
         }
       }
     } catch (SAXException | IOException | ParserConfigurationException | IllegalArgumentException e){
+      System.out.println("asdlkjf");
+
       throw new XMLException(e, "Incorrect file type selected.");
     }
   }
