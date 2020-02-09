@@ -125,7 +125,13 @@ public class Model {
     int[] xSteps = new int[1];
     int[] ySteps = new int[1];
     if(myNeighbors == 12){
-      boolean up = (x%2 == 0 );
+      xSteps = X_STEPS_TWELVE_NEIGHBORS;
+      int cellNumber = x*getWidth() + y;
+      if(cellNumber % 2 == 0){
+        ySteps = Y_STEPS_TWELVE_NEIGHBORS_UP;
+      }else{
+        ySteps = Y_STEPS_TWELVE_NEIGHBORS_DOWN;
+      }
     }
     else if(myNeighbors == 8) {
       xSteps = X_STEPS_EIGHT_NEIGHBORS;
