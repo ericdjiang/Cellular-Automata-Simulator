@@ -12,7 +12,7 @@
     <edgeType>finite</edgeType>
     <cellShape>square</cellShape>
     <neighborCount>4</neighborCount>
-    <assignmentType>counts</assignmentType>
+
     <state0>10</state0>
     <state1>89</state1>
     <state2>1</state2>

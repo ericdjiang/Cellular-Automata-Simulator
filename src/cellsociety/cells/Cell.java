@@ -17,8 +17,10 @@ public class Cell {
   }
 
   public void increment(int max){
+    state++;
     nextState++;
     if(nextState >= max){
+      state =  0;
       nextState = 0;
     }
   }

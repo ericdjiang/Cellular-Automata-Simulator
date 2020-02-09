@@ -60,6 +60,7 @@ public class Visualizer {
   private double clickedX;
   private double clickedY;
 
+  private ArrayList<String> allColors;
   private String[] labelList;
   // Simulation states
   private boolean simPaused = true;
@@ -75,6 +76,7 @@ public class Visualizer {
     this.labelList = simulationParams.get("stateLabels").split(",");
     this.clicked = false;
     initializeSeriesList();
+    initializeColorsList();
   }
 
   private void initializeSeriesList(){
@@ -82,6 +84,19 @@ public class Visualizer {
       allSeries.add(new XYChart.Series<>());
     }
     memorizedStyles = new String[labelList.length];
+  }
+
+  private void initializeColorsList(){
+    allColors = new ArrayList<>();
+    int counter= 0;
+    while(true){
+      String colorString = mySimulationParams.get("color" + counter);
+      if(colorString == null){
+        break;
+      }
+      allColors.add(colorString);
+      counter++;
+    }
   }
   public Scene makeScene(){
     BorderPane root = new BorderPane();
@@ -193,16 +208,7 @@ public class Visualizer {
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
     boolean up = true;
 
-    ArrayList<String> allColors = new ArrayList<>();
-    int counter= 0;
-    while(true){
-      String colorString = mySimulationParams.get("color" + counter);
-      if(colorString == null){
-        break;
-      }
-      allColors.add(colorString);
-      counter++;
-    }
+
 
     boolean leftEdge;
     boolean rightEdge;
@@ -237,7 +243,6 @@ public class Visualizer {
           cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, allColors.get(state));
         }
         if(clicked && cell.contains(clickedX, clickedY)){
-          System.out.println("i + \" \" + j = " + i + " " + j);
           clicked = false;
           myModel.getCell(j, i).increment(allColors.size());
         }

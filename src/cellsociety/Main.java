@@ -152,8 +152,14 @@ public class Main extends Application {
      myStage.setTitle(simulationParams.get("simName"));
      myStage.show();
 
-   } catch (XMLException e) {
-     Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+   } catch (XMLException | NullPointerException e) {
+     Alert alert;
+     if(e.getMessage() == null){
+       alert = new Alert(AlertType.ERROR, "Missing required parameters");
+     }
+     else {
+       alert = new Alert(AlertType.ERROR, e.getMessage());
+     }
      alert.setOnHidden(evt -> loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage)));
      alert.show();
    }
@@ -163,18 +169,22 @@ public class Main extends Application {
    * Advances the simulation by one step
    */
   private void step() {
-    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
-      // call find new state and setnewstate on Simulation object
-      mySimulation.run();
-      myVisualizer.runSimulation();
-      // get simulation speed from visualizer
-      setSimulationSpeed(myVisualizer.getSimSpeed());
-    } else if (!myVisualizer.getXMLLoaded() && !fileChooserOpen){
-      loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage));
+    try{
+      if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
+        // call find new state and setnewstate on Simulation object
+        mySimulation.run();
+        myVisualizer.runSimulation();
+        // get simulation speed from visualizer
+        setSimulationSpeed(myVisualizer.getSimSpeed());
+      } else if (!myVisualizer.getXMLLoaded() && !fileChooserOpen){
+        loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage));
 
-      myVisualizer.setXMLLoaded(true);
+        myVisualizer.setXMLLoaded(true);
 
-    }
+      }
+    }catch(Exception e){
+      return;
+  }
   }
 
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step
