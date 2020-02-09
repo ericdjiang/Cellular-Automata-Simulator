@@ -28,7 +28,7 @@ public class RPSSim extends Simulation {
         l0.add(0);
         l1.add(1);
         l2.add(2);
-
+        loseToMap=new HashMap<>();
         loseToMap.put(0,l1);
         loseToMap.put(1,l2);
         loseToMap.put(2,l0);
@@ -38,6 +38,11 @@ public class RPSSim extends Simulation {
 //            }
 //        }
     }
+
+    private void createLoseToMap(int numOfStates){
+        
+    }
+
 
     @Override
     protected void findNewStates() {
