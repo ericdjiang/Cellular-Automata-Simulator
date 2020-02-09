@@ -236,16 +236,10 @@ public class Visualizer {
           y = cellHeight * i;
           cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, allColors.get(state));
         }
-        /*if(clicked){
-          if(x < clickedX && clickedX  <  x + cellWidth && y < clickedY  && clickedY < y + cellHeight){
-            myModel.getCell(i, j).increment();
-            System.out.println("i + \" \" + j = " + i + " " + j);
-          }
-        }*/
         if(clicked && cell.contains(clickedX, clickedY)){
           System.out.println("i + \" \" + j = " + i + " " + j);
           clicked = false;
-          myModel.getCell(j, i).increment();
+          myModel.getCell(j, i).increment(allColors.size());
         }
         gridWrapper.getChildren().add(cell);
         up = !up;

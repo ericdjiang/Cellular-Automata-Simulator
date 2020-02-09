@@ -16,9 +16,11 @@ public class Cell {
     this.nextState = nextState;
   }
 
-  public void increment(){
-    System.out.println("increment");
+  public void increment(int max){
     nextState++;
+    if(nextState >= max){
+      nextState = 0;
+    }
   }
 
   public void updateState(){
