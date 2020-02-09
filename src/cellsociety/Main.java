@@ -11,6 +11,7 @@ import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -68,7 +69,14 @@ public class Main extends Application {
    myXMLParser = new XMLParser();
    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
    //ArrayList<ArrayList<Cell>> grid = myXMLParser.generateGridFromXML();
-   simulationParams = myXMLParser.getSimulationParams();
+   try {
+     simulationParams = myXMLParser.getSimulationParams();
+     myXMLParser.validateParams();
+   } catch (XMLException e) {
+     new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
+     loadConfiguration();
+   }
+
    int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
    int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
    String assignmentType = simulationParams.get("assignmentType");
@@ -149,6 +157,7 @@ public class Main extends Application {
       // get simulation speed from visualizer
       setSimulationSpeed(myVisualizer.getSimSpeed());
     } else if (!myVisualizer.getXMLLoaded()){
+
       loadConfiguration();
 
       myVisualizer.setXMLLoaded(true);

@@ -1,8 +1,11 @@
 package cellsociety.xml;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -19,7 +22,37 @@ public class XMLParser {
   private HashMap<String, String> simulationParams = new HashMap<>();
   private int myHeight;
   private int myWidth;
+
+  List <String> presetParams = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
+
   public XMLParser(){
+  }
+
+  public void validateParams() throws XMLException{
+    if(!simulationParams.containsKey("simName")){
+      throw new XMLException("Invalid simulation type given. No Simulation specified");
+    } else if (!validateGridValues()) {
+      throw new XMLException("Invalid simulation parameters specified.");
+    }
+  }
+
+  private boolean checkParamsExist(List<String> paramsToCheck){
+    for (String param: paramsToCheck) {
+      if(!simulationParams.containsKey("simName")) return false;
+    }
+    return true;
+  }
+
+  private boolean validateGridValues(){
+    if(simulationParams.get("assignmentType").equals("preset")){
+        return(checkParamsExist(presetParams) &&
+            (simulationParams.get("gridValues").matches("[a-zA-Z3-9]+") ||
+                simulationParams.get("gridValues").length() != Integer.parseInt(simulationParams.get("gridWidth"))*Integer.parseInt(simulationParams.get("gridHeight"))
+            )
+        );
+      }
+    
+    return true;
   }
 
   public void initializeDocBuilder(File fname) {
@@ -46,8 +79,8 @@ public class XMLParser {
           }*/
         }
       }
-    } catch (SAXException | IOException | ParserConfigurationException e){
-      throw new XMLException(e, "Error loading files");
+    } catch (SAXException | IOException | ParserConfigurationException | IllegalArgumentException e){
+      throw new XMLException(e, "Incorrect file type selected.");
     }
   }
 
