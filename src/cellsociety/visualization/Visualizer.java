@@ -27,16 +27,16 @@ public class Visualizer {
   // Simulation model and parameters
   private Model myModel;
   private HashMap<String, String> mySimulationParams;
-  private int PARAM_ROWS = 20;
-  private int PARAM_COLS = 20;
+  private int PARAM_ROWS;
+  private int PARAM_COLS;
 
   private Simulation mySimulation;
 
-  private int GRID_WIDTH = 400;
-  private int GRID_HEIGHT = 400;
+  public static final int GRID_WIDTH = 400;
+  public static final int GRID_HEIGHT = 400;
 
-  private int STAGE_HEIGHT = GRID_HEIGHT + 200;
-  private int STAGE_WIDTH = GRID_WIDTH + 400;
+  public static final int STAGE_HEIGHT = GRID_HEIGHT + 200;
+  public static final int STAGE_WIDTH = GRID_WIDTH + 400;
   // Buttons
   private Button playButton;
   private Button stopButton;
@@ -44,13 +44,16 @@ public class Visualizer {
   private Button configButton;
 
   private int lastX = 0;
-
   private ArrayList<XYChart.Series> allSeries = new ArrayList<>();
   private String[] memorizedStyles;
   // Simulation objects
   private Group gridWrapper = new Group();
   private Group graphWrapper = new Group();
   private Slider slider;
+
+  private boolean clicked;
+  private double clickedX;
+  private double clickedY;
 
   private String[] labelList;
   // Simulation states
@@ -65,6 +68,7 @@ public class Visualizer {
     this.PARAM_ROWS = Integer.parseInt(simulationParams.get("gridHeight"));
     this.mySimulation = simulation;
     this.labelList = simulationParams.get("stateLabels").split(",");
+    this.clicked = false;
     initializeSeriesList();
   }
 
@@ -87,13 +91,18 @@ public class Visualizer {
 
     // create scene to hold UI
     Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
+    scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
     return scene;
   }
 
   public double getSimSpeed(){
     return slider.getValue();
   }
-
+  private void handleMouseInput(double x, double  y){
+    clicked = true;
+    clickedX = x;
+    clickedY = y;
+  }
   // Making input panel to hold buttons and sliders
   private Node makeInputPanel () {
     playButton = makeButton("Start", event -> startSimulation());
@@ -158,7 +167,6 @@ public class Visualizer {
   private void displayNewGrid(){
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
-    int startX = GRID_WIDTH - cellWidth*myModel.getWidth()/2;
     boolean up = true;
     String color0 = mySimulationParams.get("color0");
     String color1 = mySimulationParams.get("color1");
@@ -168,28 +176,41 @@ public class Visualizer {
     boolean rightEdge;
     for (int i = 0; i < PARAM_ROWS; i++){
       for (int j = 0; j < PARAM_COLS; j++) {
-        double x = cellWidth*j/2 + startX;
-        double y = cellHeight*i;
-
-        if(j == 0){
-          leftEdge = true;
-        }
-        else{
-          leftEdge = false;
-        }
-        if(j == PARAM_COLS-1){
-          rightEdge = true;
-        }
-        else{
-          rightEdge = false;
-        }
+        double x;
+        double y;
         Shape cell;
-        switch(mySimulationParams.get("cellShape")){
-          case "triangle":
-            cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, leftEdge, rightEdge);
-            break;
-          default:
-            cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        if(mySimulationParams.get("cellShape").equals("triangle")){
+          x = cellWidth*j/2;
+          y = cellHeight*i;
+
+          if(j == 0){
+            leftEdge = true;
+          }
+          else{
+            leftEdge = false;
+          }
+          if(j == PARAM_COLS-1){
+            rightEdge = true;
+          }
+          else{
+            rightEdge = false;
+          }
+          cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, leftEdge, rightEdge);
+        }
+        else{
+          x = cellWidth * j;
+          y = cellHeight * i;
+          cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2);
+        }
+        /*if(clicked){
+          if(x < clickedX && clickedX  <  x + cellWidth && y < clickedY  && clickedY < y + cellHeight){
+            myModel.getCell(i, j).increment();
+            System.out.println("i + \" \" + j = " + i + " " + j);
+          }
+        }*/
+        if(clicked && cell.contains(clickedX, clickedY)){
+          System.out.println("i + \" \" + j = " + i + " " + j);
+          clicked = false;
         }
         gridWrapper.getChildren().add(cell);
         up = !up;

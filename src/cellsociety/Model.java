@@ -21,11 +21,6 @@ public class Model {
   private boolean myFinite;
   private ArrayList<ArrayList<Cell>> myGrid;
 
-
-  /*public Model(ArrayList<ArrayList<Cell>> grid){
-    myGrid = grid;
-  }*/
-
   public Model(int height, int width, String configString, boolean finite, int neighbors){
     myHeight = height;
     myWidth = width;
@@ -162,5 +157,4 @@ public class Model {
     }
     return count;
   }
-
 }

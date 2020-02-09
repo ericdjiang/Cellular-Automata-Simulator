@@ -34,6 +34,7 @@ public class XMLParser {
     } else if (!validateGridValues()) {
       throw new XMLException("Invalid simulation parameters specified.");
     }
+
   }
 
   private boolean checkParamsExist(List<String> paramsToCheck){

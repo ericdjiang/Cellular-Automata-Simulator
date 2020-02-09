@@ -20,6 +20,10 @@ public class Cell {
     this.nextState = nextState;
   }
 
+  public void increment(){
+    state++;
+    nextState++;
+  }
   public int getX(){
     return x;
   }
