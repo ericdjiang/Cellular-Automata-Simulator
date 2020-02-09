@@ -55,6 +55,7 @@ public class Visualizer {
   private Group gridWrapper = new Group();
   private Group graphWrapper = new Group();
   private Slider slider;
+  private HBox extraInputs;
 
   private boolean clicked;
   private double clickedX;
@@ -153,8 +154,12 @@ public class Visualizer {
     slider.setMax(2000);
     slider.setShowTickLabels(true);
 
+    extraInputs = mySimulation.getExtraInputs();
+
     configButton = makeButton("Select File", event -> setXMLLoaded(false));
-    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, saveButton);
+
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, extraInputs, saveButton);
+
     return hbox;
   }
 
