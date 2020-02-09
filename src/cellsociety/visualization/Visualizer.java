@@ -51,6 +51,7 @@ public class Visualizer {
   private Group gridWrapper = new Group();
   private Group graphWrapper = new Group();
   private Slider slider;
+  private HBox extraInputs;
 
   private String[] labelList;
   // Simulation states
@@ -105,8 +106,10 @@ public class Visualizer {
     slider.setMax(2000);
     slider.setShowTickLabels(true);
 
+    extraInputs = mySimulation.getExtraInputs();
+
     configButton = makeButton("Select File", event -> setXMLLoaded(false));
-    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton);
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, extraInputs);
     return hbox;
   }
 
