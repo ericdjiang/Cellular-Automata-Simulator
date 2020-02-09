@@ -44,7 +44,7 @@ public class FireSim extends Simulation {
 
                 boolean adjacentBurn = false;
 
-                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 4);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j);
                 double randomVal = new Random().nextDouble();
 
                 for(Cell c: neighbors){

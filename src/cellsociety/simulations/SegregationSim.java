@@ -34,7 +34,7 @@ public class SegregationSim extends Simulation {
                     continue;
                 }
 
-                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j);
                 int similarCount = 0;
                 int denominator = neighbors.size();
 

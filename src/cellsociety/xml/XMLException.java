@@ -9,10 +9,9 @@ import org.xml.sax.SAXException;
  *
  * @author Robert C. Duvall
  */
-public class XMLException extends Exception {
+public class XMLException extends RuntimeException {
   // for serialization
   private static final long serialVersionUID = 1L;
-
 
   /**
    * Create an exception based on an issue in our code.

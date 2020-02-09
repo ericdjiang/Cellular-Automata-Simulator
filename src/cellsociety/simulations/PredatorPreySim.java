@@ -47,7 +47,7 @@ public class PredatorPreySim extends Simulation {
                     continue;
                 }
 
-                ArrayList<Cell> neighbors = myModel.getNeighbors(i,j,4);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i,j);
 
                 Cell newCell;
 

@@ -21,7 +21,7 @@ public class PercolationSim extends Simulation {
                 if(cell.getState() == 0 || cell.getState() == 2){
                     continue;
                 }
-                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j);
 
 
                 for(Cell c: neighbors){

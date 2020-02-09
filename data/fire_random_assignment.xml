@@ -3,11 +3,13 @@
     <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
     <simName>Fire</simName>
     <color0>0x000000</color0>
-    <color1>0xffff00</color1>
+    <color1>0x00ff00</color1>
     <color2>0xff0000</color2>
     <catchProb>0.3</catchProb>
-    <gridHeight>100</gridHeight>
-    <gridWidth>100</gridWidth>
+    <gridHeight>25</gridHeight>
+    <gridWidth>25</gridWidth>
+    <cellShape>triangle</cellShape>
+    <neighborCount>12</neighborCount>
     <assignmentType>probability</assignmentType>
     <stateLabels>empty, live, burning</stateLabels>
     <edgeType>finite</edgeType>
