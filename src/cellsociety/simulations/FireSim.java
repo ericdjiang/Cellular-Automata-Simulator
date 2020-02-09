@@ -3,17 +3,42 @@ package cellsociety.simulations;
 import cellsociety.cells.Cell;
 import cellsociety.Model;
 import cellsociety.Simulation;
+import cellsociety.cells.FireCell;
+import cellsociety.cells.PredatorPreyCell;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FireSim extends Simulation {
     private double myCatchProb;
+    private int myBurnTime;
+    private Slider catchProbSlider;
+    private Slider burnTimeSlider;
 
     public FireSim(Model model, double catchProb) {
         super(model);
         myModel = model;
         myCatchProb = catchProb;
+        myBurnTime=1;
+        for(int i = 0; i < myModel.getHeight(); i++) {
+            for (int j = 0; j < myModel.getWidth(); j++) {
+                myModel.setCell(i,j,new FireCell(myModel.getCell(i,j).getState(),myBurnTime));
+            }
+        }
+    }
+
+    public FireSim(Model model, double catchProb, int burnTime) {
+        super(model);
+        myModel = model;
+        myCatchProb = catchProb;
+        myBurnTime=burnTime;
+        for(int i = 0; i < myModel.getHeight(); i++) {
+            for (int j = 0; j < myModel.getWidth(); j++) {
+                myModel.setCell(i,j,new FireCell(myModel.getCell(i,j).getState(),burnTime));
+            }
+        }
     }
 /*
     protected ArrayList<Cell> getNeighbors(Cell cell){
@@ -31,14 +56,40 @@ public class FireSim extends Simulation {
     }*/
 
     @Override
+    public HBox getExtraInputs(){
+        catchProbSlider = new Slider();
+        catchProbSlider.setMin(0);
+        catchProbSlider.setMax(1);
+        catchProbSlider.setShowTickLabels(true);
+        catchProbSlider.setValue(myCatchProb);
+        catchProbSlider.setAccessibleText("Catch Prob");
+
+        burnTimeSlider = new Slider();
+        burnTimeSlider.setMin(1);
+        burnTimeSlider.setMax(10);
+        burnTimeSlider.setShowTickLabels(true);
+        burnTimeSlider.setValue(myBurnTime);
+        burnTimeSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+                burnTimeSlider.setValue(newVal.intValue()));
+
+        HBox extraInputs=new HBox(catchProbSlider, burnTimeSlider);
+        return extraInputs;
+    }
+
+    @Override
     protected void findNewStates() {
+        myCatchProb=catchProbSlider.getValue();
+        myBurnTime=(int) burnTimeSlider.getValue();
         for(int i = 0; i < myModel.getHeight(); i++){
             for(int j = 0; j < myModel.getWidth(); j++){
-                Cell cell = myModel.getCell(i,j);
+                FireCell cell = (FireCell) myModel.getCell(i,j);
                 if(cell.getState() == 0){
                     continue;
                 }
                 if(cell.getState() == 2){
+                    if(cell.burntOut()) {
+                        cell.setNextState(0);
+                    }
                     continue;
                 }
 
@@ -54,7 +105,7 @@ public class FireSim extends Simulation {
                 }
 
                 if(adjacentBurn && randomVal < myCatchProb){
-                    cell.setNextState(2);
+                    cell.burn(myBurnTime);
                 }
             }
         }
