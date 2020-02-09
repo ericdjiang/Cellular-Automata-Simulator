@@ -2,6 +2,7 @@ package cellsociety.visualization;
 
 import cellsociety.Model;
 import cellsociety.Simulation;
+import cellsociety.xml.XMLGenerator;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -42,6 +43,7 @@ public class Visualizer {
   private Button stopButton;
   private Button stepButton;
   private Button configButton;
+  private Button saveButton;
 
   private int lastX = 0;
 
@@ -94,11 +96,20 @@ public class Visualizer {
     return slider.getValue();
   }
 
+  public void saveSimulation () {
+    stopSimulation();
+
+    XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams);
+    
+    System.out.println("saving");
+  }
+
   // Making input panel to hold buttons and sliders
   private Node makeInputPanel () {
     playButton = makeButton("Start", event -> startSimulation());
     stopButton = makeButton("Stop", event -> stopSimulation());
     stepButton = makeButton("Step", event -> stepSimulation());
+    saveButton = makeButton("Save", event -> saveSimulation());
 
     slider = new Slider();
     slider.setMin(100);
@@ -106,7 +117,7 @@ public class Visualizer {
     slider.setShowTickLabels(true);
 
     configButton = makeButton("Select File", event -> setXMLLoaded(false));
-    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton);
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, saveButton);
     return hbox;
   }
 
