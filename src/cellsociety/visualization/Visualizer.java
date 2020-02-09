@@ -211,6 +211,7 @@ public class Visualizer {
         if(clicked && cell.contains(clickedX, clickedY)){
           System.out.println("i + \" \" + j = " + i + " " + j);
           clicked = false;
+          myModel.getCell(j, i).increment();
         }
         gridWrapper.getChildren().add(cell);
         up = !up;

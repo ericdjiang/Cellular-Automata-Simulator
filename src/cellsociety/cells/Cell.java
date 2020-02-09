@@ -21,9 +21,10 @@ public class Cell {
   }
 
   public void increment(){
-    state++;
+    System.out.println("increment");
     nextState++;
   }
+
   public int getX(){
     return x;
   }
