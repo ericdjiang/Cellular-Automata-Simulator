@@ -118,6 +118,9 @@ public class Model {
     }
     return myGrid.get(x).get(y);
   }
+  public void setCell(int x, int y, Cell c){
+    myGrid.get(x).set(y, c);
+  }
 
   public ArrayList<Cell> getNeighbors(int x, int y){
     ArrayList<Cell> neighbors = new ArrayList<>();
