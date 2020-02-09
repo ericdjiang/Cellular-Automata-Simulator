@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+    <author>Eric Jiang, Karthik Ramachandran, Kyle Brisky</author>
+    <simName>RPS</simName>
+    <color0>0xff0000</color0>
+    <color1>0x00ff00</color1>
+    <color2>0x0000ff</color2>
+    <gridHeight>30</gridHeight>
+    <gridWidth>30</gridWidth>
+    <assignmentType>probability</assignmentType>
+    <stateLabels>rock, paper, scissors</stateLabels>
+    <cellShape>square</cellShape>
+    <neighborCount>8</neighborCount>
+    <edgeType>finite</edgeType>
+    <minThreshold>3</minThreshold>
+    <maxThreshold>5</maxThreshold>
+    <state0>0.3</state0>
+    <state1>0.4</state1>
+    <state2>0.3</state2>
+</data>

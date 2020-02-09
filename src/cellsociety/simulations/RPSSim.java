@@ -21,17 +21,20 @@ public class RPSSim extends Simulation {
         myModel = model;
         myMinThreshold = minThreshold;
         myAdditionalThreshold = (maxThreshold-minThreshold)+1;
-        ArrayList<Integer> l0= new ArrayList<>(1);
-        ArrayList<Integer> l1= new ArrayList<>(1);
-        ArrayList<Integer> l2= new ArrayList<>(1);
+        createLoseToMap(3);
+//        for(int i = 0; i < myModel.getHeight(); i++) {
+//            for (int j = 0; j < myModel.getWidth(); j++) {
+//                myModel.setCell(i,j,new PredatorPreyCell(myModel.getCell(i,j).getState(),myBreedTime,myStarveTime));
+//            }
+//        }
+    }
 
-        l0.add(0);
-        l1.add(1);
-        l2.add(2);
-        loseToMap=new HashMap<>();
-        loseToMap.put(0,l1);
-        loseToMap.put(1,l2);
-        loseToMap.put(2,l0);
+    public RPSSim(Model model, int minThreshold, int maxThreshold, int numOfStates) {
+        super(model);
+        myModel = model;
+        myMinThreshold = minThreshold;
+        myAdditionalThreshold = (maxThreshold-minThreshold)+1;
+        createLoseToMap(numOfStates);
 //        for(int i = 0; i < myModel.getHeight(); i++) {
 //            for (int j = 0; j < myModel.getWidth(); j++) {
 //                myModel.setCell(i,j,new PredatorPreyCell(myModel.getCell(i,j).getState(),myBreedTime,myStarveTime));
@@ -40,7 +43,19 @@ public class RPSSim extends Simulation {
     }
 
     private void createLoseToMap(int numOfStates){
-        
+        loseToMap = new HashMap<>();
+        int numOfLoser = (numOfStates-1)/2;
+        for(int i=0;i<numOfStates;i++){
+            ArrayList<Integer> losers =new ArrayList<>();
+
+            System.out.print("State "+i+" loses to: ");
+            for(int j=0;j<numOfLoser;j++){
+                System.out.print((i+(1+j))%numOfStates+" ");
+                losers.add((i+(1+j))%numOfStates);
+            }
+            System.out.println();
+            loseToMap.put(i,losers);
+        }
     }
 
 
