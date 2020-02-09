@@ -163,21 +163,30 @@ public class Visualizer {
     String color0 = mySimulationParams.get("color0");
     String color1 = mySimulationParams.get("color1");
     String color2 = mySimulationParams.get("color2");
-    boolean edge = true;
+
+    boolean leftEdge;
+    boolean rightEdge;
     for (int i = 0; i < PARAM_ROWS; i++){
       for (int j = 0; j < PARAM_COLS; j++) {
         double x = cellWidth*j/2 + startX;
         double y = cellHeight*i;
-        if(j == 0 || j == PARAM_COLS - 1){
-          edge = true;
+
+        if(j == 0){
+          leftEdge = true;
         }
         else{
-          edge = false;
+          leftEdge = false;
+        }
+        if(j == PARAM_COLS-1){
+          rightEdge = true;
+        }
+        else{
+          rightEdge = false;
         }
         Shape cell;
         switch(mySimulationParams.get("cellShape")){
           case "triangle":
-            cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, edge);
+            cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, leftEdge, rightEdge);
             break;
           default:
             cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);

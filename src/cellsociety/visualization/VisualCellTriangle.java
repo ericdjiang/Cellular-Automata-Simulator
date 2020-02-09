@@ -14,8 +14,9 @@ public class VisualCellTriangle extends Polygon{
   private double width;
   private double height;
   private boolean up;
-  private boolean edge;
-  public VisualCellTriangle(double x, double y, double width, double height, int state, String color0, String color1, String color2, boolean up, boolean edge){
+  private boolean leftEdge;
+  private boolean rightEdge;
+  public VisualCellTriangle(double x, double y, double width, double height, int state, String color0, String color1, String color2, boolean up, boolean leftEdge, boolean rightEdge){
     super();
     myPoints = new double[6];
     this.x = x;
@@ -23,7 +24,8 @@ public class VisualCellTriangle extends Polygon{
     this.width = width;
     this.height = height;
     this.up = up;
-    this.edge = edge;
+    this.leftEdge = leftEdge;
+    this.rightEdge = rightEdge;
     generatePoints();
     setStroke(Color.WHITE);
 
@@ -47,6 +49,12 @@ public class VisualCellTriangle extends Polygon{
       y2 = y+height;
       x3 = x + width;
       y3 = y + height;
+      if(leftEdge){
+        x2 = x1;
+      }
+      if(rightEdge){
+        x3 = x1;
+      }
     }else {
        x1 = x;
        y1 = y;
@@ -54,21 +62,18 @@ public class VisualCellTriangle extends Polygon{
        y2 = y;
        x3 = width/2 + x;
       y3 = y + height;
-    }
-    if(edge){
-      x2 = x +width/2;
+      if(leftEdge){
+        x1 = x3;
+      }
+      if(rightEdge){
+        x2=x3;
+      }
     }
     Double[] points = new Double[]{
             x1, y1,
             x2, y2,
             x3, y3
     };
-    System.out.println("x1 = " + x1);
-    System.out.println("y1 = " + y1);
-    System.out.println("x2 = " + x2);
-    System.out.println("y2 = " + y2);
-    System.out.println("x3 = " + x3);
-    System.out.println("y3 = " + y3);
     getPoints().addAll(points);
 
   }

@@ -84,7 +84,7 @@ public class Main extends Application {
    int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
    int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
    String assignmentType = simulationParams.get("assignmentType");
-
+  int neighbors = Integer.valueOf(simulationParams.get("neighborCount"));
    String edgeType = simulationParams.get("edgeType");
    boolean finite = edgeType.equals("finite");
    if(assignmentType.equals("probability")){
@@ -99,7 +99,7 @@ public class Main extends Application {
        probs.add(Double.valueOf(prob) + probs.get(counter-1));
        counter++;
      }
-     myModel = new Model(gridHeight, gridWidth, probs, PROB_STRING, finite);
+     myModel = new Model(gridHeight, gridWidth, probs, PROB_STRING, finite, neighbors);
    }
    else if(assignmentType.equals("counts")){
      int counter = 0;
@@ -112,11 +112,11 @@ public class Main extends Application {
        counts.add(Double.valueOf(count));
        counter++;
      }
-     myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING, finite);
+     myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING, finite, neighbors);
    }
    else if(assignmentType.equals("preset")) {
      String configString = simulationParams.get("gridValues");
-     myModel = new Model(gridHeight, gridWidth, configString, finite);
+     myModel = new Model(gridHeight, gridWidth, configString, finite, neighbors);
    }
 
    // Generate Model

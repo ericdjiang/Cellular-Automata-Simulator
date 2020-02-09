@@ -18,7 +18,7 @@ public class GameOfLifeSim extends Simulation {
         for(int i = 0; i < myModel.getHeight(); i++){
             for(int j = 0; j < myModel.getWidth(); j++){
                 Cell cell = myModel.getCell(i,j);
-                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j, 8);
+                ArrayList<Cell> neighbors = myModel.getNeighbors(i, j);
                 int count = 0;
                 for(Cell c: neighbors){
                     count += c.getState();
