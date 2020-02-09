@@ -110,9 +110,8 @@ public class Main extends Application {
          }
          counts.add(Double.valueOf(count));
          counter++;
-
-         myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING, finite, neighbors);
        }
+       myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING, finite, neighbors);
      }
    else if(assignmentType.equals("preset")) {
      String configString = simulationParams.get("gridValues");
