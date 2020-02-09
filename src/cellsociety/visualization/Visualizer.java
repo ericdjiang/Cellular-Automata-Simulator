@@ -73,13 +73,15 @@ public class Visualizer {
     initializeSeriesList();
   }
 
+
+
   private void initializeSeriesList(){
     for(int i = 0; i < labelList.length; i++){
       allSeries.add(new XYChart.Series<>());
     }
     memorizedStyles = new String[labelList.length];
   }
-  public Scene makeScene(){
+  public Node makePane(int yPos){
     BorderPane root = new BorderPane();
     root.setLeft(gridWrapper);
     root.setRight(graphWrapper);
@@ -89,10 +91,17 @@ public class Visualizer {
 //    root.setTop(makeTopPanel());
 
     root.setBottom(makeInputPanel());
-
+    root.setLayoutY(yPos);
+    root.setMaxHeight(600.0);
+    root.setMaxWidth(300.0);
+    return root;
     // create scene to hold UI
-    Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
-    return scene;
+//    Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
+//    return scene;
+  }
+
+  public Simulation getMySimulation(){
+    return mySimulation;
   }
 
   public double getSimSpeed(){
