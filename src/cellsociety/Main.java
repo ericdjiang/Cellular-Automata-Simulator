@@ -164,11 +164,9 @@ public class Main extends Application {
    * Advances the simulation by one step
    */
   private void step() {
-    System.out.println("stepping");
     if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
       // call find new state and setnewstate on Simulation object
       mySimulation.run();
-      //myModel = mySimulation.getModel();
       myVisualizer.runSimulation();
       // get simulation speed from visualizer
       setSimulationSpeed(myVisualizer.getSimSpeed());

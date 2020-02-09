@@ -16,6 +16,10 @@ public class Cell {
     this.nextState = nextState;
   }
 
+  public void increment(){
+    System.out.println("increment");
+    nextState++;
+  }
 
   public void updateState(){
     state = nextState;
