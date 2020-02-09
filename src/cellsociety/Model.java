@@ -26,6 +26,9 @@ public class Model {
     myGrid = grid;
   }*/
 
+  public Model(){
+
+  }
   public Model(int height, int width, String configString, boolean finite, int neighbors){
     myHeight = height;
     myWidth = width;

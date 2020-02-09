@@ -11,6 +11,8 @@ import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -32,7 +34,6 @@ public class Main extends Application {
 
   // Class objects
   private XMLParser myXMLParser;
-  private Model myModel;
   private HashMap<String, String> simulationParams;
   private Visualizer myVisualizer;
   private Simulation mySimulation;
@@ -45,7 +46,8 @@ public class Main extends Application {
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
   private boolean fileChooserOpen = false;
 
-
+  private Group root = new Group();
+  private Scene scene = new Scene(root, 1000, 1000);
   /**
    * Begins the simulation loop via timeline
    *
@@ -55,7 +57,9 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
     myStage = stage;
-    loadConfiguration(new File ("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
+    myStage.setScene(scene);
+    myStage.show();
+//    loadConfiguration(new File ("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
 
     // Setup timeline which will call step to advance the simulation by one
     KeyFrame frame = new KeyFrame(Duration.millis(millisecondDelay), e -> step());
@@ -69,6 +73,7 @@ public class Main extends Application {
    fileChooserOpen = true;
    // Read in parameters and layout from XML
 
+   Model myModel = new Model();
    try {
      myXMLParser = new XMLParser();
      myXMLParser.initializeDocBuilder(fileName);
@@ -161,20 +166,20 @@ public class Main extends Application {
    * Advances the simulation by one step
    */
   private void step() {
-    System.out.println("stepping");
-    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
-      // call find new state and setnewstate on Simulation object
-      mySimulation.run();
-      //myModel = mySimulation.getModel();
-      myVisualizer.runSimulation();
-      // get simulation speed from visualizer
-      setSimulationSpeed(myVisualizer.getSimSpeed());
-    } else if (!myVisualizer.getXMLLoaded() && !fileChooserOpen){
-      loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage));
-
-      myVisualizer.setXMLLoaded(true);
-
-    }
+//    System.out.println("stepping");
+//    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
+//      // call find new state and setnewstate on Simulation object
+//      mySimulation.run();
+//      //myModel = mySimulation.getModel();
+//      myVisualizer.runSimulation();
+//      // get simulation speed from visualizer
+//      setSimulationSpeed(myVisualizer.getSimSpeed());
+//    } else if (!myVisualizer.getXMLLoaded() && !fileChooserOpen){
+//      loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage));
+//
+//      myVisualizer.setXMLLoaded(true);
+//
+//    }
   }
 
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step
