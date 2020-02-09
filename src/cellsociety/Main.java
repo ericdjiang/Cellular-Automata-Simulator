@@ -2,6 +2,7 @@ package cellsociety;
 
 import cellsociety.simulations.*;
 import cellsociety.visualization.Visualizer;
+import cellsociety.xml.XMLException;
 import cellsociety.xml.XMLParser;
 import java.io.File;
 import javafx.application.Application;
@@ -50,21 +51,8 @@ public class Main extends Application {
    * @throws Exception
    */
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
     myStage = stage;
-
-        /**KARTHIK**/
-//    // Generate Model
-//    myModel = new Model(grid);
-//    //mySimulation = new GameOfLifeSim(myModel);
-//    //mySimulation = new PercolationSim(myModel);
-//    //mySimulation = new SegregationSim(myModel, 0.3);
-//    mySimulation = new FireSim(myModel, 0.5);
-//    // Generate View, passing Model and Simulation parameters to the View
-//    myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
-//    stage.setScene(myVisualizer.makeScene());
-//    stage.setTitle(TITLE);
-//    stage.show();
     loadConfiguration();
 
     // Setup timeline which will call step to advance the simulation by one
@@ -75,7 +63,7 @@ public class Main extends Application {
     animation.play();
  }
 
- private void loadConfiguration() throws Exception{
+ private void loadConfiguration(){
    // Read in parameters and layout from XML
    myXMLParser = new XMLParser();
    myXMLParser.initializeDocBuilder(FILE_CHOOSER.showOpenDialog(myStage));
@@ -161,11 +149,7 @@ public class Main extends Application {
       // get simulation speed from visualizer
       setSimulationSpeed(myVisualizer.getSimSpeed());
     } else if (!myVisualizer.getXMLLoaded()){
-      try {
-        loadConfiguration();
-      } catch(Exception e) {
-        System.out.println("could not load configuration file");
-      }
+      loadConfiguration();
 
       myVisualizer.setXMLLoaded(true);
 
