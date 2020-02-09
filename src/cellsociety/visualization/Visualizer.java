@@ -192,9 +192,17 @@ public class Visualizer {
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
     boolean up = true;
-    String color0 = mySimulationParams.get("color0");
-    String color1 = mySimulationParams.get("color1");
-    String color2 = mySimulationParams.get("color2");
+
+    ArrayList<String> allColors = new ArrayList<>();
+    int counter= 0;
+    while(true){
+      String colorString = mySimulationParams.get("color" + counter);
+      if(colorString == null){
+        break;
+      }
+      allColors.add(colorString);
+      counter++;
+    }
 
     boolean leftEdge;
     boolean rightEdge;
@@ -203,6 +211,7 @@ public class Visualizer {
         double x;
         double y;
         Shape cell;
+        int state = myModel.getCell(j, i).getState();
         if(mySimulationParams.get("cellShape").equals("triangle")){
           x = cellWidth*j/2;
           y = cellHeight*i;
@@ -219,12 +228,13 @@ public class Visualizer {
           else{
             rightEdge = false;
           }
-          cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, leftEdge, rightEdge);
+
+          cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, allColors.get(state), up, leftEdge, rightEdge);
         }
         else{
           x = cellWidth * j;
           y = cellHeight * i;
-          cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2);
+          cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, allColors.get(state));
         }
         /*if(clicked){
           if(x < clickedX && clickedX  <  x + cellWidth && y < clickedY  && clickedY < y + cellHeight){
