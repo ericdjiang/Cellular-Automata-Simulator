@@ -105,7 +105,7 @@ public class Visualizer {
     XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams);
     try {
       xmlGenerator.generateFile();
-      Alert alert = new Alert(AlertType.INFORMATION, "File generated: ");
+      Alert alert = new Alert(AlertType.INFORMATION, "File generated: " + xmlGenerator.getFilePath());
       alert.show();
     } catch(XMLException e){
       Alert alert = new Alert(AlertType.ERROR, e.getMessage());

@@ -18,18 +18,24 @@ import org.w3c.dom.Element;
 
 public class XMLGenerator {
   private HashMap<String, String> mySimulationParams;
-  private final String OUTPUT_DIRECTORY_NAME = "C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\";
+  private final String OUTPUT_DIRECTORY_NAME = ".\\data\\";
+  private File outputFilePath;
 
   public XMLGenerator(HashMap<String, String> mySimulationParams){
     this.mySimulationParams = mySimulationParams;
   }
 
   private File generateFilePath(){
-    return new File(OUTPUT_DIRECTORY_NAME
+    outputFilePath = new File(OUTPUT_DIRECTORY_NAME
         + mySimulationParams.get("simName")
         + " "
         + new SimpleDateFormat("yyyy-MM-dd_HHmmss").format(new Date())
         + ".xml");
+    return outputFilePath;
+  }
+
+  public String getFilePath(){
+    return outputFilePath.getName();
   }
 
   public void generateFile() {
