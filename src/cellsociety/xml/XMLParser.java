@@ -20,11 +20,13 @@ import org.xml.sax.SAXException;
 public class XMLParser {
   private String gridASCII = "";
   private HashMap<String, String> simulationParams = new HashMap<>();
-  private int myHeight;
-  private int myWidth;
 
-  private final List <String> PRESET_PARAMS = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
 
+  public static final List <String> PRESET_PARAMS = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
+  public static final List<Integer> SQUARE_NEIGHBORS = new ArrayList(Arrays.asList(4, 8));
+  public static final List<Integer> TRIANGLE_NEIGHBORS = new ArrayList(Arrays.asList(3, 6, 12));
+  public static final String TRIANGLE = "triangle";
+  public static final String SQUARE = "square";
   public XMLParser(){
   }
 
@@ -33,10 +35,23 @@ public class XMLParser {
       throw new XMLException("Invalid simulation type given. No Simulation specified");
     } else if (!validateGridValues()) {
       throw new XMLException("Invalid simulation parameters specified.");
+    } else if (!changeNeighborAndShapeCompat()){
+      throw new XMLException("Invalid shape and neighbor count combination");
     }
 
   }
-
+  private boolean changeNeighborAndShapeCompat(){
+    int neighborCount = Integer.parseInt(simulationParams.get("neighborCount"));
+    String shape = simulationParams.get("cellShape");
+    if(shape.equals(TRIANGLE) && !TRIANGLE_NEIGHBORS.contains(neighborCount)){
+      return false;
+    }else if(shape.equals(SQUARE) && !SQUARE_NEIGHBORS.contains(neighborCount)){
+      return false;
+    }else if(!shape.equals(SQUARE) && !shape.equals(TRIANGLE)){
+      return false;
+    }
+    return true;
+  }
   private boolean checkParamsExist(List<String> paramsToCheck){
     for (String param: paramsToCheck) {
       if(!simulationParams.containsKey(param)) return false;
