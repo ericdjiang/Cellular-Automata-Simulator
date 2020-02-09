@@ -80,8 +80,6 @@ public class XMLParser {
         }
       }
     } catch (SAXException | IOException | ParserConfigurationException | IllegalArgumentException e){
-      System.out.println("asdlkjf");
-
       throw new XMLException(e, "Incorrect file type selected.");
     }
   }
