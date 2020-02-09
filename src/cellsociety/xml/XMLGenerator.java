@@ -1,9 +1,13 @@
 package cellsociety.xml;
 
+import cellsociety.Model;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,9 +24,12 @@ public class XMLGenerator {
   private HashMap<String, String> mySimulationParams;
   private final String OUTPUT_DIRECTORY_NAME = ".\\data\\";
   private File outputFilePath;
+  private List<String> PARAMS_TO_SKIP = Arrays.asList("gridValues","state0", "state1", "state2");
+  private Model myModel;
 
-  public XMLGenerator(HashMap<String, String> mySimulationParams){
+  public XMLGenerator(HashMap<String, String> mySimulationParams, Model myModel){
     this.mySimulationParams = mySimulationParams;
+    this.myModel = myModel;
   }
 
   private File generateFilePath(){
@@ -50,13 +57,18 @@ public class XMLGenerator {
       Element root = doc.createElement("data");
       doc.appendChild(root);
 
+      mySimulationParams.put("assignmentType", "preset");
       for (String key: mySimulationParams.keySet()){
-        Element newLine = doc.createElement(key);
-        newLine.appendChild(doc.createTextNode(mySimulationParams.get(key)));
-        root.appendChild(newLine);
-      }
+        if(!PARAMS_TO_SKIP.contains(key)){
+          Element newLine = doc.createElement(key);
+          newLine.appendChild(doc.createTextNode(mySimulationParams.get(key)));
+          root.appendChild(newLine);
+        }
+       }
 
-    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      storeGridValues(doc, root);
+
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer transformer = transformerFactory.newTransformer();
     DOMSource domSource = new DOMSource(doc);
     StreamResult streamResult = new StreamResult(generateFilePath());
@@ -64,5 +76,17 @@ public class XMLGenerator {
     } catch ( ParserConfigurationException | TransformerException e){
       throw new XMLException("Error saving file", e);
     }
+  }
+
+  private void storeGridValues(Document doc, Element root) {
+    String gridValues = "";
+    for (int i = 0; i < myModel.getHeight(); i++){
+      for(int j = 0; j < myModel.getWidth(); j++) {
+        gridValues = gridValues + myModel.getCell(i, j).getState();
+      }
+    }
+    Element gridValuesLine = doc.createElement("gridValues");
+    gridValuesLine.appendChild(doc.createTextNode(gridValues));
+    root.appendChild(gridValuesLine);
   }
 }

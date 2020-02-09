@@ -102,7 +102,7 @@ public class Visualizer {
   public void saveSimulation () {
     stopSimulation();
 
-    XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams);
+    XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams, myModel);
     try {
       xmlGenerator.generateFile();
       Alert alert = new Alert(AlertType.INFORMATION, "File generated: " + xmlGenerator.getFilePath());
