@@ -38,7 +38,7 @@ public class Model {
       grid.add(new ArrayList<Cell>());
       for(int j = 0; j < myWidth; j++){
         int state = Character.getNumericValue(configString.charAt(stringIdx));
-        grid.get(i).add(new Cell(state, i, j));
+        grid.get(i).add(new Cell(state));
         stringIdx++;
       }
     }
@@ -62,7 +62,7 @@ public class Model {
         }else if(type.equals(COUNT_STRING)){
           state = findStateFromCount(list);
         }
-        grid.get(i).add(new Cell(state, i, j));
+        grid.get(i).add(new Cell(state));
       }
     }
     myGrid = grid;

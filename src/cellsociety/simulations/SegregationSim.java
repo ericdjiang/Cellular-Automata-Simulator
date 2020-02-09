@@ -59,7 +59,7 @@ public class SegregationSim extends Simulation {
                 myModel.getCell(newX, newY).setNextState(cell.getState());
                 cell.setNextState(0);
 
-                myEmpties.add(new int[]{cell.getX(), cell.getY()});
+                myEmpties.add(new int[]{i, j});
             }
         }
     }

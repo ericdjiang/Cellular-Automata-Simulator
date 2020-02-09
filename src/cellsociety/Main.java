@@ -139,6 +139,9 @@ public class Main extends Application {
          break;
        case "PredatorPrey":
          mySimulation = new PredatorPreySim(myModel, Integer.parseInt(simulationParams.get("breedTime")), Integer.parseInt(simulationParams.get("starveTime")));
+         break;
+       case "RPS":
+         mySimulation = new RPSSim(myModel, Integer.parseInt(simulationParams.get("minThreshold")), Integer.parseInt(simulationParams.get("maxThreshold")));
        default:
          break;
      }
