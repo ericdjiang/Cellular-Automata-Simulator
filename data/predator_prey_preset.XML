@@ -6,7 +6,7 @@
     <color1>0xffffff</color1>
     <color2>0x0000ff</color2>
     <breedTime>5</breedTime>
-    <starveTime>10</starveTime>
+    <starveTime>3</starveTime>
     <gridHeight>10</gridHeight>
     <gridWidth>10</gridWidth>
     <stateLabels>kelp, fish, shark</stateLabels>
