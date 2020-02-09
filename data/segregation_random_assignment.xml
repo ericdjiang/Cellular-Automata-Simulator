@@ -9,6 +9,8 @@
     <gridHeight>100</gridHeight>
     <gridWidth>100</gridWidth>
     <stateLabels>empty, group A, group B</stateLabels>
+    <cellShape>square</cellShape>
+    <neighborCount>8</neighborCount>
     <edgeType>finite</edgeType>
     <assignmentType>probability</assignmentType>
     <state0>0.2</state0>

@@ -9,6 +9,8 @@
     <gridWidth>10</gridWidth>
     <assignmentType>preset</assignmentType>
     <stateLabels>blocked, empty, percolated</stateLabels>
+    <cellShape>square</cellShape>
+    <neighborCount>8</neighborCount>
     <edgeType>finite</edgeType>
     <gridValues>0000011111000001111100000000011111111110000111100001111211111211111110000000000111112111011100200121</gridValues>
 </data>

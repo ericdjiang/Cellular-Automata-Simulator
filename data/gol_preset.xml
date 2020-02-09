@@ -9,6 +9,8 @@
   <gridWidth>10</gridWidth>
   <assignmentType>preset</assignmentType>
   <stateLabels>dead, live</stateLabels>
+  <cellShape>square</cellShape>
+  <neighborCount>8</neighborCount>
   <edgeType>finite</edgeType>
   <gridValues>0000011111000001111100000000011111111110000111100001111011111011111110000000000111110111011100000101</gridValues>
 
