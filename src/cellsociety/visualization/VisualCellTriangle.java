@@ -5,9 +5,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 public class VisualCellTriangle extends Polygon{
-  private Color myColor0;
-  private Color myColor1;
-  private Color myColor2;
+
   private double[] myPoints;
   private double x;
   private double y;
@@ -16,7 +14,7 @@ public class VisualCellTriangle extends Polygon{
   private boolean up;
   private boolean leftEdge;
   private boolean rightEdge;
-  public VisualCellTriangle(double x, double y, double width, double height, int state, String color0, String color1, String color2, boolean up, boolean leftEdge, boolean rightEdge){
+  public VisualCellTriangle(double x, double y, double width, double height, String colorString, boolean up, boolean leftEdge, boolean rightEdge){
     super();
     myPoints = new double[6];
     this.x = x;
@@ -28,11 +26,9 @@ public class VisualCellTriangle extends Polygon{
     this.rightEdge = rightEdge;
     generatePoints();
     setStroke(Color.WHITE);
+    Color color = Color.web(colorString, 1.0);
 
-    myColor0 = Color.web(color0, 1.0);
-    myColor1 = Color.web(color1, 1.0);
-    myColor2 = Color.web(color2, 1.0);
-    setColor(state);
+    setFill(color);
   }
   private void generatePoints(){
     double x1;
@@ -76,19 +72,6 @@ public class VisualCellTriangle extends Polygon{
     };
     getPoints().addAll(points);
 
-  }
-  private void setColor(int state){
-    switch(state){
-      case 2:
-        setFill(myColor2);
-        break;
-      case 1:
-        setFill(myColor1);
-        break;
-      default:
-        setFill(myColor0);
-        break;
-    }
   }
 
 }

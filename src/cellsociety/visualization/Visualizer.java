@@ -2,10 +2,14 @@ package cellsociety.visualization;
 
 import cellsociety.Model;
 import cellsociety.Simulation;
+import cellsociety.xml.XMLException;
+import cellsociety.xml.XMLGenerator;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Slider;
 
 import java.util.ArrayList;
@@ -27,24 +31,24 @@ public class Visualizer {
   // Simulation model and parameters
   private Model myModel;
   private HashMap<String, String> mySimulationParams;
-  private int PARAM_ROWS = 20;
-  private int PARAM_COLS = 20;
+  private int PARAM_ROWS;
+  private int PARAM_COLS;
 
   private Simulation mySimulation;
 
-  private int GRID_WIDTH = 400;
-  private int GRID_HEIGHT = 400;
+  public static final int GRID_WIDTH = 400;
+  public static final int GRID_HEIGHT = 400;
 
-  private int STAGE_HEIGHT = GRID_HEIGHT + 200;
-  private int STAGE_WIDTH = GRID_WIDTH + 400;
+  public static final int STAGE_HEIGHT = GRID_HEIGHT + 200;
+  public static final int STAGE_WIDTH = GRID_WIDTH + 400;
   // Buttons
   private Button playButton;
   private Button stopButton;
   private Button stepButton;
   private Button configButton;
+  private Button saveButton;
 
   private int lastX = 0;
-
   private ArrayList<XYChart.Series> allSeries = new ArrayList<>();
   private String[] memorizedStyles;
   // Simulation objects
@@ -53,6 +57,11 @@ public class Visualizer {
   private Slider slider;
   private HBox extraInputs;
 
+  private boolean clicked;
+  private double clickedX;
+  private double clickedY;
+
+  private ArrayList<String> allColors;
   private String[] labelList;
   // Simulation states
   private boolean simPaused = true;
@@ -66,7 +75,9 @@ public class Visualizer {
     this.PARAM_ROWS = Integer.parseInt(simulationParams.get("gridHeight"));
     this.mySimulation = simulation;
     this.labelList = simulationParams.get("stateLabels").split(",");
+    this.clicked = false;
     initializeSeriesList();
+    initializeColorsList();
   }
 
   private void initializeSeriesList(){
@@ -74,6 +85,19 @@ public class Visualizer {
       allSeries.add(new XYChart.Series<>());
     }
     memorizedStyles = new String[labelList.length];
+  }
+
+  private void initializeColorsList(){
+    allColors = new ArrayList<>();
+    int counter= 0;
+    while(true){
+      String colorString = mySimulationParams.get("color" + counter);
+      if(colorString == null){
+        break;
+      }
+      allColors.add(colorString);
+      counter++;
+    }
   }
   public Scene makeScene(){
     BorderPane root = new BorderPane();
@@ -88,6 +112,7 @@ public class Visualizer {
 
     // create scene to hold UI
     Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
+    scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
     return scene;
   }
 
@@ -95,11 +120,34 @@ public class Visualizer {
     return slider.getValue();
   }
 
+
+  public void saveSimulation () {
+    stopSimulation();
+
+    XMLGenerator xmlGenerator = new XMLGenerator(mySimulationParams, myModel);
+    try {
+      xmlGenerator.generateFile();
+      Alert alert = new Alert(AlertType.INFORMATION, "File generated: " + xmlGenerator.getFilePath());
+      alert.show();
+    } catch(XMLException e){
+      Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+      alert.show();
+    }
+  }
+
+
+  private void handleMouseInput(double x, double  y){
+    clicked = true;
+    clickedX = x;
+    clickedY = y;
+  }
+
   // Making input panel to hold buttons and sliders
   private Node makeInputPanel () {
     playButton = makeButton("Start", event -> startSimulation());
     stopButton = makeButton("Stop", event -> stopSimulation());
     stepButton = makeButton("Step", event -> stepSimulation());
+    saveButton = makeButton("Save", event -> saveSimulation());
 
     slider = new Slider();
     slider.setMin(100);
@@ -109,7 +157,9 @@ public class Visualizer {
     extraInputs = mySimulation.getExtraInputs();
 
     configButton = makeButton("Select File", event -> setXMLLoaded(false));
-    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, extraInputs);
+
+    HBox hbox = new HBox(playButton, stopButton, stepButton, slider, configButton, extraInputs, saveButton);
+
     return hbox;
   }
 
@@ -161,38 +211,45 @@ public class Visualizer {
   private void displayNewGrid(){
     int cellWidth = GRID_WIDTH / PARAM_COLS;
     int cellHeight = GRID_HEIGHT / PARAM_ROWS;
-    int startX = GRID_WIDTH - cellWidth*myModel.getWidth()/2;
     boolean up = true;
-    String color0 = mySimulationParams.get("color0");
-    String color1 = mySimulationParams.get("color1");
-    String color2 = mySimulationParams.get("color2");
+
+
 
     boolean leftEdge;
     boolean rightEdge;
     for (int i = 0; i < PARAM_ROWS; i++){
       for (int j = 0; j < PARAM_COLS; j++) {
-        double x = cellWidth*j/2 + startX;
-        double y = cellHeight*i;
-
-        if(j == 0){
-          leftEdge = true;
-        }
-        else{
-          leftEdge = false;
-        }
-        if(j == PARAM_COLS-1){
-          rightEdge = true;
-        }
-        else{
-          rightEdge = false;
-        }
+        double x;
+        double y;
         Shape cell;
-        switch(mySimulationParams.get("cellShape")){
-          case "triangle":
-            cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, myModel.getCell(j, i).getState(), color0, color1, color2, up, leftEdge, rightEdge);
-            break;
-          default:
-            cell = new VisualCellRectangle(cellWidth*i+startX, cellHeight*j, cellWidth, cellHeight, myModel.getCell(i, j).getState(), color0, color1, color2);
+        int state = myModel.getCell(j, i).getState();
+        if(mySimulationParams.get("cellShape").equals("triangle")){
+          x = cellWidth*j/2;
+          y = cellHeight*i;
+
+          if(j == 0){
+            leftEdge = true;
+          }
+          else{
+            leftEdge = false;
+          }
+          if(j == PARAM_COLS-1){
+            rightEdge = true;
+          }
+          else{
+            rightEdge = false;
+          }
+
+          cell = new VisualCellTriangle(x, y, cellWidth, cellHeight, allColors.get(state), up, leftEdge, rightEdge);
+        }
+        else{
+          x = cellWidth * j;
+          y = cellHeight * i;
+          cell = new VisualCellRectangle(x, y, cellWidth, cellHeight, allColors.get(state));
+        }
+        if(clicked && cell.contains(clickedX, clickedY)){
+          clicked = false;
+          myModel.getCell(j, i).increment(allColors.size());
         }
         gridWrapper.getChildren().add(cell);
         up = !up;

@@ -16,6 +16,14 @@ public class Cell {
     this.nextState = nextState;
   }
 
+  public void increment(int max){
+    state++;
+    nextState++;
+    if(nextState >= max){
+      state =  0;
+      nextState = 0;
+    }
+  }
 
   public void updateState(){
     state = nextState;

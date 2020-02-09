@@ -67,7 +67,6 @@ public class SegregationSim extends Simulation {
                 if(percentage >= myThreshold){
                     continue;
                 }
-                System.out.println("myEmpties.size() = " + myEmpties.size());
                 int idx = new Random().nextInt(myEmpties.size());
 
                 int[] newLocation = myEmpties.remove(idx);

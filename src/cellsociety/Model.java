@@ -8,6 +8,7 @@ import java.util.Random;
 public class Model {
   public static final String COUNT_STRING = "count";
   public static final String PROB_STRING = "probability";
+
   public static final int[] X_STEPS_TWELVE_NEIGHBORS = {0, 0, 1, -1, 1, 1, -1, -1, -2, 2, -2, 2};
   public static final int[] Y_STEPS_TWELVE_NEIGHBORS_UP = {1, -1, 0, 0, 1, -1, 1, -1, 0, 0, -1, -1};
   public static final int[] Y_STEPS_TWELVE_NEIGHBORS_DOWN = {1, -1, 0, 0, 1, -1, 1, -1, 0, 0, 1, 1};
@@ -15,16 +16,17 @@ public class Model {
   public static final int[] Y_STEPS_EIGHT_NEIGHBORS = {1, -1, 0, 0, 1, -1, 1, -1};
   public static final int[] X_STEPS_4_NEIGHBORS = {0, 0, 1, -1};
   public static final int[] Y_STEPS_4_NEIGHBORS = {1, -1, 0, 0};
+  public static final int[] X_STEPS_3_NEIGHBORS = {-1, 1, 0};
+  public static final int[] Y_STEPS_3_NEIGHBORS_UP = {0, 0, -1};
+  public static final int[] Y_STEPS_3_NEIGHBORS_DOWN = {0, 0, 1};
+  public static final int[] X_STEPS_9_NEIGHBORS = {0, 1, 1, -1, -1, 2, 2, -2, -2};
+  public static final int[] Y_STEPS_9_NEIGHBORS_UP = {-1, 1, -1, 1, -1, 0, 1, 0, 1};
+  public static final int[] Y_STEPS_9_NEIGHBORS_DOWN = {1, 1, -1, 1, -1, 0, -1, 0, -1};
   private int myHeight;
   private int myWidth;
   private int myNeighbors;
   private boolean myFinite;
   private ArrayList<ArrayList<Cell>> myGrid;
-
-
-  /*public Model(ArrayList<ArrayList<Cell>> grid){
-    myGrid = grid;
-  }*/
 
   public Model(int height, int width, String configString, boolean finite, int neighbors){
     myHeight = height;
@@ -127,13 +129,30 @@ public class Model {
 
     int[] xSteps = new int[1];
     int[] ySteps = new int[1];
+    int cellNumber = x*getWidth() + y;
+    boolean up = cellNumber % 2 == 0;
     if(myNeighbors == 12){
       xSteps = X_STEPS_TWELVE_NEIGHBORS;
-      int cellNumber = x*getWidth() + y;
-      if(cellNumber % 2 == 0){
+      if(up){
         ySteps = Y_STEPS_TWELVE_NEIGHBORS_UP;
       }else{
         ySteps = Y_STEPS_TWELVE_NEIGHBORS_DOWN;
+      }
+    }
+    else if(myNeighbors == 9){
+      xSteps = X_STEPS_9_NEIGHBORS;
+      if(up){
+        ySteps = Y_STEPS_9_NEIGHBORS_UP;
+      }else{
+        ySteps = Y_STEPS_9_NEIGHBORS_DOWN;
+      }
+    }
+    else if(myNeighbors == 3){
+      xSteps = X_STEPS_3_NEIGHBORS;
+      if(up){
+        ySteps = Y_STEPS_3_NEIGHBORS_UP;
+      }else{
+        ySteps = Y_STEPS_3_NEIGHBORS_DOWN;
       }
     }
     else if(myNeighbors == 8) {
@@ -162,5 +181,4 @@ public class Model {
     }
     return count;
   }
-
 }
