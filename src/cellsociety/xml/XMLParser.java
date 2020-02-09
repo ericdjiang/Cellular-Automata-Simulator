@@ -24,7 +24,7 @@ public class XMLParser {
 
   public static final List <String> PRESET_PARAMS = new ArrayList (Arrays.asList("gridHeight", "gridWidth", "gridValues"));
   public static final List<Integer> SQUARE_NEIGHBORS = new ArrayList(Arrays.asList(4, 8));
-  public static final List<Integer> TRIANGLE_NEIGHBORS = new ArrayList(Arrays.asList(3, 6, 12));
+  public static final List<Integer> TRIANGLE_NEIGHBORS = new ArrayList(Arrays.asList(3, 9, 12));
   public static final String TRIANGLE = "triangle";
   public static final String SQUARE = "square";
   public XMLParser(){
