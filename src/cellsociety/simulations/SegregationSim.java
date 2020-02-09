@@ -35,16 +35,16 @@ public class SegregationSim extends Simulation {
     public HBox getExtraInputs(){
         thresholdSlider = new Slider();
         thresholdSlider.setMin(0);
-        thresholdSlider.setMax(100);
+        thresholdSlider.setMax(1);
         thresholdSlider.setShowTickLabels(true);
-        thresholdSlider.setValue(myThreshold*100);
+        thresholdSlider.setValue(myThreshold);
         HBox extraInputs=new HBox(thresholdSlider);
         return extraInputs;
     }
 
     @Override
     protected void findNewStates() {
-        myThreshold=(thresholdSlider.getValue()/100);
+        myThreshold=thresholdSlider.getValue();
         for(int i = 0; i < myModel.getHeight(); i++){
             for(int j = 0; j < myModel.getWidth(); j++){
                 Cell cell = myModel.getCell(i,j);
