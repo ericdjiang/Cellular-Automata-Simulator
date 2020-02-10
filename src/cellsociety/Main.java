@@ -5,14 +5,20 @@ import cellsociety.visualization.Visualizer;
 import cellsociety.xml.XMLException;
 import cellsociety.xml.XMLParser;
 import java.io.File;
+import java.util.List;
 import javafx.application.Application;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,19 +38,37 @@ public class Main extends Application {
 
   // Class objects
   private XMLParser myXMLParser;
-  private Model myModel;
   private HashMap<String, String> simulationParams;
-  private Visualizer myVisualizer;
+//  private Visualizer myVisualizer;
   private Simulation mySimulation;
   private Stage myStage;
+
+  private List<Visualizer> myVisualizers = new ArrayList<>();
 
   // File loading
   // kind of data files to look for
   public static final String DATA_FILE_EXTENSION = "*.xml";
   // NOTE: generally accepted behavior that the chooser remembers where user left it last
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
-  private boolean fileChooserOpen = false;
 
+
+
+  private final int SIM_WIDTH = 900;
+  private final int SIM_HEIGHT = 500;
+  private final int STAGE_PADDING = 30;
+
+  private final int STAGE_HEIGHT = SIM_HEIGHT + STAGE_PADDING;
+  private final int STAGE_WIDTH = SIM_WIDTH*2;
+
+  private Group root = new Group();
+  private Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
+
+  private Button makeButton(String property, EventHandler<ActionEvent> handler){
+    Button result = new Button();
+    result.setText(property);
+    result.setOnAction(handler);
+    return result;
+  }
 
   /**
    * Begins the simulation loop via timeline
@@ -55,7 +79,16 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
     myStage = stage;
-    loadConfiguration(new File ("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
+
+    Button addNewSimBtn = makeButton("Add New Sim", event -> addNewSim(myVisualizers.size()%2*SIM_WIDTH, (int) myVisualizers.size()/2*SIM_HEIGHT + STAGE_PADDING ));
+
+    root.getChildren().add(addNewSimBtn);
+    myStage.setScene(scene);
+    myStage.show();
+
+//    addNewSim(30);
+
+//    loadConfiguration(new File ("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
 
     // Setup timeline which will call step to advance the simulation by one
     KeyFrame frame = new KeyFrame(Duration.millis(millisecondDelay), e -> step());
@@ -65,18 +98,17 @@ public class Main extends Application {
     animation.play();
  }
 
- private void loadConfiguration(File fileName){
-   fileChooserOpen = true;
+ private void addNewSim(int xPos, int yPos){
    // Read in parameters and layout from XML
 
+   Model myModel = new Model();
    try {
      myXMLParser = new XMLParser();
-     myXMLParser.initializeDocBuilder(fileName);
+     myXMLParser.initializeDocBuilder(new File("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
+
 
      simulationParams = myXMLParser.getSimulationParams();
      myXMLParser.validateParams();
-     fileChooserOpen = false;
-
 
      int gridHeight = Integer.valueOf(simulationParams.get("gridHeight"));
      int gridWidth = Integer.valueOf(simulationParams.get("gridWidth"));
@@ -113,10 +145,10 @@ public class Main extends Application {
        }
        myModel = new Model(gridHeight, gridWidth, counts, COUNT_STRING, finite, neighbors);
      }
-   else if(assignmentType.equals("preset")) {
-     String configString = simulationParams.get("gridValues");
-     myModel = new Model(gridHeight, gridWidth, configString, finite, neighbors);
-   }
+     else if(assignmentType.equals("preset")) {
+       String configString = simulationParams.get("gridValues");
+       myModel = new Model(gridHeight, gridWidth, configString, finite, neighbors);
+     }
 
 
      // Generate Model
@@ -146,11 +178,9 @@ public class Main extends Application {
      }
 
      // Generate View, passing Model and Simulation parameters to the View
-     myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
-
-     myStage.setScene(myVisualizer.makeScene());
-     myStage.setTitle(simulationParams.get("simName"));
-     myStage.show();
+     Visualizer myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
+     myVisualizers.add(myVisualizer);
+     root.getChildren().add(myVisualizer.makePane(xPos, yPos));
 
    } catch (XMLException | NullPointerException e) {
      Alert alert;
@@ -160,31 +190,31 @@ public class Main extends Application {
      else {
        alert = new Alert(AlertType.ERROR, e.getMessage());
      }
-     alert.setOnHidden(evt -> loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage)));
      alert.show();
    }
-
  }
+
   /**
    * Advances the simulation by one step
    */
   private void step() {
-    try{
-      if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
-        // call find new state and setnewstate on Simulation object
-        mySimulation.run();
-        myVisualizer.runSimulation();
-        // get simulation speed from visualizer
-        setSimulationSpeed(myVisualizer.getSimSpeed());
-      } else if (!myVisualizer.getXMLLoaded() && !fileChooserOpen){
-        loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage));
+//    System.out.println("stepping");
+    for(Visualizer myVisualizer: myVisualizers){
+    if(!myVisualizer.isSimPaused()) { // if the simulation is not stopped
+      // call find new state and setnewstate on Simulation object
+      myVisualizer.getMySimulation().run();
+      //myModel = mySimulation.getModel();
+      myVisualizer.runSimulation();
+      // get simulation speed from visualizer
+      setSimulationSpeed(myVisualizer.getSimSpeed());
+    } else if (!myVisualizer.getXMLLoaded()){
+      myVisualizer.loadConfiguration(FILE_CHOOSER.showOpenDialog(myStage), myStage);
 
-        myVisualizer.setXMLLoaded(true);
+      myVisualizer.setXMLLoaded(true);
 
-      }
-    }catch(Exception e){
-      return;
-  }
+    }
+    }
+
   }
 
   private void setSimulationSpeed(double simulationSpeed){ //take in simulationspeed as seconds in between each step

@@ -28,6 +28,9 @@ public class Model {
   private boolean myFinite;
   private ArrayList<ArrayList<Cell>> myGrid;
 
+  public Model(){
+
+  }
   public Model(int height, int width, String configString, boolean finite, int neighbors){
     myHeight = height;
     myWidth = width;
