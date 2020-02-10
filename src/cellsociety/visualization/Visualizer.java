@@ -98,7 +98,7 @@ public class Visualizer {
     }
     memorizedStyles = new String[labelList.length];
   }
-  public Node makePane(int yPos){
+  public Node makePane(int xPos, int yPos){
     BorderPane root = new BorderPane();
     root.setLeft(gridWrapper);
     root.setRight(graphWrapper);
@@ -108,9 +108,10 @@ public class Visualizer {
 //    root.setTop(makeTopPanel());
 
     root.setBottom(makeInputPanel());
+    root.setLayoutX(xPos);
     root.setLayoutY(yPos);
-    root.setMaxHeight(600.0);
-    root.setMaxWidth(300.0);
+    root.setMaxHeight(500.0);
+    root.setMaxWidth(500.0);
     return root;
     // create scene to hold UI
 //    Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);

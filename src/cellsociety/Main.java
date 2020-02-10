@@ -52,9 +52,14 @@ public class Main extends Application {
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
 
+  private final int STAGE_HEIGHT = 600;
+  private final int STAGE_WIDTH = 2000;
   private Group root = new Group();
-  private Scene scene = new Scene(root, 100, 1500);
+  private Scene scene = new Scene(root, STAGE_HEIGHT, STAGE_WIDTH);
 
+  private final int SIM_WIDTH = 1000;
+  private final int SIM_HEIGHT = 500;
+  private final int STAGE_PADDING = 30;
 
   private Button makeButton(String property, EventHandler<ActionEvent> handler){
     Button result = new Button();
@@ -73,14 +78,13 @@ public class Main extends Application {
   public void start(Stage stage) {
     myStage = stage;
 
-    Button addNewSimBtn = makeButton("Add New Sim", event -> addNewSim(1000));
+    Button addNewSimBtn = makeButton("Add New Sim", event -> addNewSim(myVisualizers.size()%2*SIM_WIDTH, (int) myVisualizers.size()/2*SIM_HEIGHT + STAGE_PADDING ));
 
     root.getChildren().add(addNewSimBtn);
     myStage.setScene(scene);
     myStage.show();
 
-    addNewSim(30);
-    addNewSim(450);
+//    addNewSim(30);
 
 //    loadConfiguration(new File ("C:\\Users\\edj9\\workspace308\\simulation_team16\\data\\gol_preset.xml"));
 
@@ -92,7 +96,7 @@ public class Main extends Application {
     animation.play();
  }
 
- private void addNewSim(int yPos){
+ private void addNewSim(int xPos, int yPos){
    // Read in parameters and layout from XML
 
    Model myModel = new Model();
@@ -172,7 +176,7 @@ public class Main extends Application {
      // Generate View, passing Model and Simulation parameters to the View
      Visualizer myVisualizer = new Visualizer(myModel, simulationParams, mySimulation);
      myVisualizers.add(myVisualizer);
-     root.getChildren().add(myVisualizer.makePane(yPos));
+     root.getChildren().add(myVisualizer.makePane(xPos, yPos));
 
    } catch (XMLException e) {
      Alert alert = new Alert(AlertType.ERROR, e.getMessage());
