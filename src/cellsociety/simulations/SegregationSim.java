@@ -5,6 +5,9 @@ import cellsociety.Model;
 import cellsociety.Simulation;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ public class SegregationSim extends Simulation {
     private double myThreshold;
     ArrayList<int[]> myEmpties;
     private Slider thresholdSlider;
+    private int fontSize =10;
 
 
 
@@ -33,12 +37,20 @@ public class SegregationSim extends Simulation {
 
     @Override
     public HBox getExtraInputs(){
+
+        Text thresholdLabel = new Text();
+        thresholdLabel.setFont(new Font(fontSize));
+        thresholdLabel.setText("   Threshold");
+
         thresholdSlider = new Slider();
         thresholdSlider.setMin(0);
         thresholdSlider.setMax(1);
         thresholdSlider.setShowTickLabels(true);
         thresholdSlider.setValue(myThreshold);
-        HBox extraInputs=new HBox(thresholdSlider);
+
+        VBox labeledThresholdSlider = new VBox(thresholdLabel, thresholdSlider);
+
+        HBox extraInputs=new HBox(labeledThresholdSlider);
         return extraInputs;
     }
 
