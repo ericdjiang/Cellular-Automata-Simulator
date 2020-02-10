@@ -6,6 +6,10 @@ import cellsociety.cells.Cell;
 import cellsociety.cells.PredatorPreyCell;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +21,7 @@ public class RPSSim extends Simulation {
     private int myAdditionalThreshold;
     private Slider minThresholdSlider;
     private Slider additionalThresholdSlider;
+    private int fontSize=10;
 
     private HashMap<Integer,ArrayList<Integer>> loseToMap;
 
@@ -64,12 +69,20 @@ public class RPSSim extends Simulation {
     @Override
     public HBox getExtraInputs(){
 
+        Text minLabel = new Text();
+        minLabel.setFont(new Font(fontSize));
+        minLabel.setText("   Min Threshold");
+
+        Text additionalLabel = new Text();
+        additionalLabel.setFont(new Font(fontSize));
+        additionalLabel.setText("   Additional Threshold");
+
         minThresholdSlider = new Slider();
         minThresholdSlider.setMin(1);
         minThresholdSlider.setMax(8);
         minThresholdSlider.setShowTickLabels(true);
         minThresholdSlider.setValue(myMinThreshold);
-        minThresholdSlider.setMinorTickCount(1);
+        minThresholdSlider.setMajorTickUnit(1);
         minThresholdSlider.valueProperty().addListener((obs, oldVal, newVal) ->
                 minThresholdSlider.setValue(newVal.intValue()));
 
@@ -77,11 +90,15 @@ public class RPSSim extends Simulation {
         additionalThresholdSlider.setMin(0);
         additionalThresholdSlider.setMax(8-myMinThreshold);
         additionalThresholdSlider.setShowTickLabels(true);
+        additionalThresholdSlider.setMajorTickUnit(1);
         additionalThresholdSlider.setValue(myAdditionalThreshold);
         additionalThresholdSlider.valueProperty().addListener((obs, oldVal, newVal) ->
                 additionalThresholdSlider.setValue(newVal.intValue()));
 
-        HBox extraInputs=new HBox(minThresholdSlider, additionalThresholdSlider);
+        VBox labeledMinSlider = new VBox(minLabel,minThresholdSlider);
+        VBox labeledAdditionalSlider = new VBox(additionalLabel,additionalThresholdSlider);
+
+        HBox extraInputs=new HBox(labeledMinSlider, labeledAdditionalSlider);
         return extraInputs;
     }
 

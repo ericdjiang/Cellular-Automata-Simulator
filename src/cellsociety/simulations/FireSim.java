@@ -7,6 +7,9 @@ import cellsociety.cells.FireCell;
 import cellsociety.cells.PredatorPreyCell;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,6 +19,7 @@ public class FireSim extends Simulation {
     private int myBurnTime;
     private Slider catchProbSlider;
     private Slider burnTimeSlider;
+    private int fontSize = 10;
 
     public FireSim(Model model, double catchProb) {
         super(model);
@@ -57,22 +61,34 @@ public class FireSim extends Simulation {
 
     @Override
     public HBox getExtraInputs(){
+
+        Text catchProbLabel = new Text();
+        catchProbLabel.setFont(new Font(fontSize));
+        catchProbLabel.setText("   Catch Probability");
+
+        Text burnLabel = new Text();
+        burnLabel.setFont(new Font(fontSize));
+        burnLabel.setText("   Burn Time");
+
         catchProbSlider = new Slider();
         catchProbSlider.setMin(0);
         catchProbSlider.setMax(1);
         catchProbSlider.setShowTickLabels(true);
         catchProbSlider.setValue(myCatchProb);
-        catchProbSlider.setAccessibleText("Catch Prob");
 
         burnTimeSlider = new Slider();
         burnTimeSlider.setMin(1);
         burnTimeSlider.setMax(10);
+        burnTimeSlider.setMajorTickUnit(1);
         burnTimeSlider.setShowTickLabels(true);
         burnTimeSlider.setValue(myBurnTime);
         burnTimeSlider.valueProperty().addListener((obs, oldVal, newVal) ->
                 burnTimeSlider.setValue(newVal.intValue()));
 
-        HBox extraInputs=new HBox(catchProbSlider, burnTimeSlider);
+        VBox labeledProbSlider = new VBox(catchProbLabel,catchProbSlider);
+        VBox labeledBurnSlider = new VBox(burnLabel,burnTimeSlider);
+
+        HBox extraInputs=new HBox(labeledProbSlider, labeledBurnSlider);
         return extraInputs;
     }
 
