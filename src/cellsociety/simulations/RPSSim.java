@@ -4,6 +4,8 @@ import cellsociety.Model;
 import cellsociety.Simulation;
 import cellsociety.cells.Cell;
 import cellsociety.cells.PredatorPreyCell;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,8 @@ public class RPSSim extends Simulation {
 
     private int myMinThreshold;
     private int myAdditionalThreshold;
+    private Slider minThresholdSlider;
+    private Slider additionalThresholdSlider;
 
     private HashMap<Integer,ArrayList<Integer>> loseToMap;
 
@@ -20,7 +24,7 @@ public class RPSSim extends Simulation {
         super(model);
         myModel = model;
         myMinThreshold = minThreshold;
-        myAdditionalThreshold = (maxThreshold-minThreshold)+1;
+        myAdditionalThreshold = (maxThreshold-minThreshold);
         createLoseToMap(3);
 //        for(int i = 0; i < myModel.getHeight(); i++) {
 //            for (int j = 0; j < myModel.getWidth(); j++) {
@@ -57,15 +61,41 @@ public class RPSSim extends Simulation {
             loseToMap.put(i,losers);
         }
     }
+    @Override
+    public HBox getExtraInputs(){
+
+        minThresholdSlider = new Slider();
+        minThresholdSlider.setMin(1);
+        minThresholdSlider.setMax(8);
+        minThresholdSlider.setShowTickLabels(true);
+        minThresholdSlider.setValue(myMinThreshold);
+        minThresholdSlider.setMinorTickCount(1);
+        minThresholdSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+                minThresholdSlider.setValue(newVal.intValue()));
+
+        additionalThresholdSlider = new Slider();
+        additionalThresholdSlider.setMin(0);
+        additionalThresholdSlider.setMax(8-myMinThreshold);
+        additionalThresholdSlider.setShowTickLabels(true);
+        additionalThresholdSlider.setValue(myAdditionalThreshold);
+        additionalThresholdSlider.valueProperty().addListener((obs, oldVal, newVal) ->
+                additionalThresholdSlider.setValue(newVal.intValue()));
+
+        HBox extraInputs=new HBox(minThresholdSlider, additionalThresholdSlider);
+        return extraInputs;
+    }
 
 
     @Override
     protected void findNewStates() {
+        myMinThreshold=(int)minThresholdSlider.getValue();
+        additionalThresholdSlider.setMax(8-myMinThreshold);
+        myAdditionalThreshold=(int)additionalThresholdSlider.getValue();
         for(int i = 0; i < myModel.getHeight(); i++) {
             for (int j = 0; j < myModel.getWidth(); j++) {
                 Cell cell = myModel.getCell(i, j);
 
-                int thisThreshold = myMinThreshold+ new Random().nextInt(myAdditionalThreshold);
+                int thisThreshold = myMinThreshold+ new Random().nextInt(myAdditionalThreshold+1);
 
                 ArrayList<Cell> neighbors = myModel.getNeighbors(i, j);
                 ArrayList<Integer> losingList= loseToMap.get(cell.getState());
