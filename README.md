@@ -1,44 +1,4 @@
-simulation
-====
+# Description
+Environment for grid-based cellular automata simulations. Allows users to generate custom grid-based simulations easily through XML configuration files. Sample simulations included are game of life, predator prey, segregation, percolation, fire, and rock paper scissors. Users can simulate multiple models at once and step through epochs in real time.
 
-This project implements a cellular automata simulator.
-
-Names:
-
-### Timeline
-
-Start Date: 
-
-Finish Date: 
-
-Hours Spent:
-
-### Primary Roles
-
-
-### Resources Used
-
-
-### Running the Program
-
-Main class:
-
-Data files needed: 
-
-Features implemented:
-
-
-
-### Notes/Assumptions
-
-Assumptions or Simplifications:
-
-Interesting data files:
-
-Known Bugs:
-
-Extra credit:
-
-
-### Impressions
-
+![GIF](doc/demo1.gif)
